@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #dddde1;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controllers.MainWindowController">
+   <children>
+      <AnchorPane prefHeight="100.0" prefWidth="1200.0" style="-fx-background-color: #3f458f; -fx-border-color: #1d203c; -fx-border-width: 3;">
+         <children>
+            <Text fill="#dddde1" layoutX="476.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Автосервис">
+               <font>
+                  <Font name="Helvetica Bold" size="60.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="-300.0" layoutY="100.0" prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #3f458f;" />
+      <AnchorPane layoutX="100.0" layoutY="100.0" prefHeight="600.0" prefWidth="1100.0">
+         <children>
+            <Text fx:id="welcomeText" layoutX="100.0" layoutY="140.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Добро пожаловать, &#10;user!" textOrigin="CENTER">
+               <font>
+                  <Font name="Helvetica" size="40.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
