@@ -33,7 +33,7 @@ public class DataBaseHandler {
                     "role VARCHAR(50) NOT NULL" +
                     ")";
             statement.executeUpdate(createTableQuery);
-            System.out.printf("createUsersTable(): Таблица создана/существует");
+            System.out.printf("createUsersTable(): Table created/consist!");
         }
     }
 
