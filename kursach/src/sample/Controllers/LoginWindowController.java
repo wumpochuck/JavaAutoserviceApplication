@@ -116,17 +116,20 @@ public class LoginWindowController {
             return;
         }
         User DataBaseUser = new DataBaseHandler().getUserByLogin(login);
-        if(DataBaseUser.getPassword() != password){                         // ошибка тут
+        if(!password.equals(DataBaseUser.getPassword())){
             PlayShakeAnimation();
             return;
         }
         alert.setContentText("Вы успешно вошли!");
         alert.showAndWait();
 
+        current_user.setLogin(DataBaseUser.getLogin());
+        current_user.setPassword(DataBaseUser.getPassword());
+        current_user.setRole(DataBaseUser.getRole());
+        current_user.setName(DataBaseUser.getName());
+        current_user.setSurname(DataBaseUser.getSurname());
 
-
-        //current_user.setLogin(loginField1.getText());
-        //openNewScene("/sample/Templates/mainWindow.fxml");
+        openNewScene("/sample/Templates/mainWindow.fxml");
     }
 
     public void onRegisterButtonClick() throws SQLException {
