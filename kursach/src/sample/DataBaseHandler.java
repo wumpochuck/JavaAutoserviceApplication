@@ -144,4 +144,44 @@ public class DataBaseHandler {
         }
         return orders;
     }
+
+    public void updateUserById(int userId, String newName, String newSurname) throws SQLException {
+        String updateQuery = "UPDATE users SET name = ?, surname = ? WHERE id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+            preparedStatement.setString(1, newName);
+            preparedStatement.setString(2, newSurname);
+            preparedStatement.setInt(3, userId);
+
+            int rowsUpdated = preparedStatement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("updateUserById(): User details updated successfully!");
+            } else {
+                System.out.println("updateUserById(): No user found with the given ID.");
+            }
+        }
+    }
+
+    public List<Order> getAllOrders() throws SQLException {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM orders";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setId(resultSet.getInt("idorder"));
+                order.setUserId(resultSet.getInt("iduser"));
+                order.setCarModel(resultSet.getString("carmodel"));
+                order.setCarNumber(resultSet.getString("carnumber"));
+                order.setProblemType(resultSet.getString("problemtype"));
+                order.setDate(resultSet.getString("date"));
+                order.setTime(resultSet.getString("time"));
+                order.setStatus(resultSet.getString("status"));
+                orders.add(order);
+            }
+        }
+        return orders;
+    }
+
 }

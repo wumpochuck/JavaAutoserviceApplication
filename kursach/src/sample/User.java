@@ -34,10 +34,12 @@ public class User {
     }
 
     public String getName() {
+        if(_name == null) return "";
         return _name;
     }
 
     public String getSurname() {
+        if(_surname == null) return "";
         return _surname;
     }
 
@@ -46,8 +48,8 @@ public class User {
     }
 
     public String getFullName(){
-        if(_name != null || _surname != null){
-            return _name + " " + _surname;
+        if(!_name.equals("") && !_surname.equals("")){
+            return _surname + " " + _name;
         } else return _login;
     }
     // Сеттеры
@@ -57,11 +59,11 @@ public class User {
     }
 
     public void setLogin(String login) {
-        if (login == null){
-            _login = "123";
-        } else {
-            _login = login;
-        }
+        //if (login == null){
+        //    _login = "123";
+        //} else {
+        _login = login;
+        //}
     }
 
     public void setPassword(String password) {

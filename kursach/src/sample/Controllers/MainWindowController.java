@@ -35,7 +35,13 @@ public class MainWindowController {
     private URL location;
 
     @FXML
+    private Button adminButton;
+
+    @FXML
     private AnchorPane buttonsPane;
+
+    @FXML
+    private Button employerButton;
 
     @FXML
     private Button exitButton;
@@ -101,6 +107,27 @@ public class MainWindowController {
     private ChoiceBox<String> order_textTime;
 
     @FXML
+    private Button profileButton;
+
+    @FXML
+    private AnchorPane profileButtonPane;
+
+    @FXML
+    private Button profile_applyButton;
+
+    @FXML
+    private TextArea profile_dataText;
+
+    @FXML
+    private TextField profile_nameText;
+
+    @FXML
+    private TextField profile_surnameText;
+
+    @FXML
+    private AnchorPane proflePage;
+
+    @FXML
     private Text welcomeText;
 
 
@@ -130,6 +157,8 @@ public class MainWindowController {
         exitButton.setOnAction(event -> onExitButtonClick());
         mainButton.setOnAction(event -> onMainButtonClick());
         orderButton.setOnAction(event -> { try { onOrderButtonClick(); } catch (SQLException throwables) { throwables.printStackTrace(); } });
+        profileButton.setOnAction(event -> onProfileButtonClick());
+        employerButton.setOnAction(event -> onEmployerButtonClick());
 
         order_clearButton.setOnAction(event -> order_onClearButtonClick());
         order_sendButton.setOnAction(event -> { try { order_onSendButtonClick(); } catch (SQLException e) { e.printStackTrace(); } });
@@ -139,7 +168,11 @@ public class MainWindowController {
         order_problemColumn.setCellValueFactory(new PropertyValueFactory<Order,String>("problemType"));
         order_statusColumn.setCellValueFactory(new PropertyValueFactory<Order,String>("status"));
 
+        profile_applyButton.setOnAction(event -> { try { profile_onApplyButtonClick(); } catch (SQLException e) { e.printStackTrace(); } });
+
+        assert adminButton != null : "fx:id=\"adminButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
         assert buttonsPane != null : "fx:id=\"buttonsPane\" was not injected: check your FXML file 'mainWindow.fxml'.";
+        assert employerButton != null : "fx:id=\"employerButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
         assert exitButton != null : "fx:id=\"exitButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
         assert mainButton != null : "fx:id=\"mainButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
         assert mainButtonPane != null : "fx:id=\"mainButtonPane\" was not injected: check your FXML file 'mainWindow.fxml'.";
@@ -161,11 +194,18 @@ public class MainWindowController {
         assert order_textDate != null : "fx:id=\"order_textDate\" was not injected: check your FXML file 'mainWindow.fxml'.";
         assert order_textProblem != null : "fx:id=\"order_textProblem\" was not injected: check your FXML file 'mainWindow.fxml'.";
         assert order_textTime != null : "fx:id=\"order_textTime\" was not injected: check your FXML file 'mainWindow.fxml'.";
+        assert profileButton != null : "fx:id=\"profileButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
+        assert profileButtonPane != null : "fx:id=\"profileButtonPane\" was not injected: check your FXML file 'mainWindow.fxml'.";
+        assert profile_applyButton != null : "fx:id=\"profile_applyButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
+        assert profile_dataText != null : "fx:id=\"profile_dataText\" was not injected: check your FXML file 'mainWindow.fxml'.";
+        assert profile_nameText != null : "fx:id=\"profile_nameText\" was not injected: check your FXML file 'mainWindow.fxml'.";
+        assert profile_surnameText != null : "fx:id=\"profile_surnameText\" was not injected: check your FXML file 'mainWindow.fxml'.";
+        assert proflePage != null : "fx:id=\"proflePage\" was not injected: check your FXML file 'mainWindow.fxml'.";
         assert welcomeText != null : "fx:id=\"welcomeText\" was not injected: check your FXML file 'mainWindow.fxml'.";
 
     }
 
-    // Методы управления --------------------------------------------------
+    // УПРАВЛЕНИЕ --------------------------------------------------
 
     public void initSettings(){
         onMainButtonClick();
@@ -176,11 +216,13 @@ public class MainWindowController {
     public void hideAllPages(){
         mainPage.setVisible(false);
         orderPage.setVisible(false);
+        proflePage.setVisible(false);
     }
 
     public void recolorAllButtons(){
         mainButtonPane.setStyle("-fx-background-color: #3f458f;");
         orderButtonPane.setStyle("-fx-background-color: #3f458f;");
+        profileButtonPane.setStyle("-fx-background-color: #3f458f;");
     }
 
     public void onExitButtonClick(){
@@ -194,6 +236,28 @@ public class MainWindowController {
         mainPage.setVisible(true);
         mainButtonPane.setStyle("-fx-background-color: #383e81;");
 
+    }
+
+    public void onEmployerButtonClick(){
+        // Создание "сообщения"
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+
+        if(!current_user.getRole().equals("employer") && !current_user.getRole().equals("admin")){
+            alert.setContentText("Отказано в доступе!");
+            alert.showAndWait();
+            return;
+        }
+
+        openNewScene("/sample/Templates/employerWindow.fxml");
+    }
+
+    public void onProfileButtonClick(){
+        hideAllPages();
+        recolorAllButtons();
+        proflePage.setVisible(true);
+        profileButtonPane.setStyle("-fx-background-color: #383e81;");
+        profile_init();
     }
 
     public void onOrderButtonClick() throws SQLException {
@@ -290,6 +354,34 @@ public class MainWindowController {
         }
     }
 
+    // PROFILE PAGE -------------------------------------------------------
+
+    public void profile_init(){
+        profile_showInformation();
+    }
+
+    public void profile_showInformation(){
+        profile_dataText.setText(String.format("Имя: %s\n\nФамилия: %s\n\nЛогин: %s\n\nРоль: %s\n",
+                                 current_user.getName(),current_user.getSurname(),current_user.getLogin(),
+                                 current_user.getRole()));
+    }
+
+    public void profile_onApplyButtonClick() throws SQLException {
+        // Создание "сообщения"
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText("Информация обновлена!");
+        alert.showAndWait();
+
+        String name = profile_nameText.getText();
+        if(name.equals("")) name = current_user.getName();
+        String surname = profile_surnameText.getText();
+        if(surname.equals("")) surname = current_user.getSurname();
+        current_user.setName(name);
+        current_user.setSurname(surname);
+        new DataBaseHandler().updateUserById(current_user.getId(),name,surname);
+        profile_showInformation();
+    }
 
     // MISC ---------------------------------------------------------------
 }
