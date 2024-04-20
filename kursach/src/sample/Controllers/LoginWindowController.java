@@ -63,10 +63,12 @@ public class LoginWindowController {
     @FXML
     private Button switchRegistrationButton;
 
-    public static User current_user = new User();
+    public static User current_user;
 
     @FXML
     void initialize() {
+        current_user = new User();
+
         switchRegistrationButton.setOnAction(event -> {onSwitchRegistrationButtonClick(LoginPane, RegistrationPane);});
 
         backButton.setOnAction(event -> {onBackButtonClick(LoginPane, RegistrationPane);});
@@ -123,6 +125,7 @@ public class LoginWindowController {
         alert.setContentText("Вы успешно вошли!");
         alert.showAndWait();
 
+        current_user.setId(DataBaseUser.getId());
         current_user.setLogin(DataBaseUser.getLogin());
         current_user.setPassword(DataBaseUser.getPassword());
         current_user.setRole(DataBaseUser.getRole());
@@ -143,21 +146,26 @@ public class LoginWindowController {
         String password = passwordField2.getText();
         String passwordRepeat = passwordField3.getText();
 
-        // 1й этап проверки - 2 пароля введены верно
+        // 1й этап проверки - такой пользователь уже существует
+        if(new DataBaseHandler().getUserByLogin(login) != null){
+            alert.setContentText("Такой пользователь уже существует!");
+            alert.showAndWait();
+            return;
+        }
+        // 2й этап проверки - 2 пароля введены неверно
         if(!password.equals(passwordRepeat)){
             alert.setContentText("Пароли должны совпадать!");
-
-
-        }else{
-            current_user.setLogin(login);
-            current_user.setPassword(password);
-            current_user.setRole("guest");
-            current_user.setName(null);
-            current_user.setSurname(null);
-            new DataBaseHandler().addUser(current_user);
-
-            alert.setContentText("Вы успешно зарегистрировались!");
+            alert.showAndWait();
+            return;
         }
+        current_user.setLogin(login);
+        current_user.setPassword(password);
+        current_user.setRole("guest");
+        current_user.setName(null);
+        current_user.setSurname(null);
+        new DataBaseHandler().addUser(current_user);
+
+        alert.setContentText("Вы успешно зарегистрировались!");
         alert.showAndWait();
     }
 

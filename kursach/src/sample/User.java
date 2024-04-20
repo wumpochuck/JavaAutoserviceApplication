@@ -45,6 +45,11 @@ public class User {
         return _role;
     }
 
+    public String getFullName(){
+        if(_name != null || _surname != null){
+            return _name + " " + _surname;
+        } else return _login;
+    }
     // Сеттеры
 
     public void setId(int id){

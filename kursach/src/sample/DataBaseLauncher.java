@@ -9,5 +9,6 @@ public class DataBaseLauncher {
         DataBaseHandler dbc = new DataBaseHandler();
 
         dbc.createUsersTable();
+        dbc.createOrdersTable();
     }
 }
