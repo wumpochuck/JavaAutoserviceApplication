@@ -159,6 +159,7 @@ public class MainWindowController {
         orderButton.setOnAction(event -> { try { onOrderButtonClick(); } catch (SQLException throwables) { throwables.printStackTrace(); } });
         profileButton.setOnAction(event -> onProfileButtonClick());
         employerButton.setOnAction(event -> onEmployerButtonClick());
+        adminButton.setOnAction(event -> onAdminButtonClick());
 
         order_clearButton.setOnAction(event -> order_onClearButtonClick());
         order_sendButton.setOnAction(event -> { try { order_onSendButtonClick(); } catch (SQLException e) { e.printStackTrace(); } });
@@ -250,6 +251,20 @@ public class MainWindowController {
         }
 
         openNewScene("/sample/Templates/employerWindow.fxml");
+    }
+
+    public void onAdminButtonClick(){
+        // Создание "сообщения"
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+
+        if(!current_user.getRole().equals("admin")){
+            alert.setContentText("Отказано в доступе!");
+            alert.showAndWait();
+            return;
+        }
+
+        openNewScene("/sample/Templates/adminWindow.fxml");
     }
 
     public void onProfileButtonClick(){

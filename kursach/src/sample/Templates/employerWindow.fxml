@@ -37,7 +37,7 @@
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="ordersPane" layoutY="100.0" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: #dddde1;">
+      <AnchorPane fx:id="ordersPane" layoutY="100.0" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: #dddde1;" visible="false">
          <children>
             <TableView fx:id="ordersTable" layoutX="25.0" layoutY="25.0" prefHeight="450.0" prefWidth="1150.0" style="-fx-background-color: #bebec1;">
               <columns>
@@ -70,14 +70,14 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <Text fx:id="ordersChoicedOrderText" layoutX="650.0" layoutY="520.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Выбранная заявка:">
+            <Button fx:id="updateButton" layoutX="25.0" layoutY="550.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" text="Обновить">
                <font>
-                  <Font size="20.0" />
+                  <Font size="16.0" />
                </font>
-            </Text>
+            </Button>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="carsPane" layoutY="100.0" prefHeight="600.0" prefWidth="1200.0" visible="false">
+      <AnchorPane fx:id="carsPane" layoutY="100.0" prefHeight="600.0" prefWidth="1200.0">
          <children>
             <TableView fx:id="carsTable" layoutX="25.0" layoutY="25.0" prefHeight="525.0" prefWidth="600.0">
               <columns>
@@ -101,11 +101,6 @@
                </font>
             </Text>
             <PieChart fx:id="carsPieSchema" layoutX="650.0" layoutY="75.0" prefHeight="500.0" prefWidth="525.0" style="-fx-background-color: #bebec1;" />
-            <Text fx:id="carsChoicedCarID" layoutX="25.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Выбранный автомобиль (ID):">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
          </children>
       </AnchorPane>
    </children>

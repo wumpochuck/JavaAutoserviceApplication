@@ -1,5 +1,9 @@
 package sample;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.PieChart;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +28,7 @@ public class DataBaseHandler {
         return connection;
     }
 
+    // Создание таблицы Users
     public void createUsersTable() throws SQLException {
         try (Statement statement = connection.createStatement()) {
             String createTableQuery = "CREATE TABLE IF NOT EXISTS users (" +
@@ -39,11 +44,12 @@ public class DataBaseHandler {
         }
     }
 
+    // Создание таблицы Orders
     public void createOrdersTable() throws SQLException {
         try (Statement statement = connection.createStatement()) {
             String createTableQuery = "CREATE TABLE IF NOT EXISTS orders (" +
                     "idorder INT AUTO_INCREMENT PRIMARY KEY," +
-                    "iduser INT," +
+                    "userid INT," +
                     "carmodel VARCHAR(50)," +
                     "carnumber VARCHAR(50)," +
                     "problemtype VARCHAR(150)," +
@@ -56,6 +62,21 @@ public class DataBaseHandler {
         }
     }
 
+    // Создание таблицы Cars
+    public void createCarTable() throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            String createTableQuery = "CREATE TABLE IF NOT EXISTS cars (" +
+                    "id INT AUTO_INCREMENT PRIMARY KEY," +
+                    "userId INT," +
+                    "carModel VARCHAR(255)," +
+                    "carNumber VARCHAR(20)" +
+                    ")";
+            statement.executeUpdate(createTableQuery);
+            System.out.println("createCarTable(): Table created/consist!");
+        }
+    }
+
+    // Добавление User
     public void addUser(User user) throws SQLException {
         String insertQuery = "INSERT INTO Users (login, password, name, surname, role) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
@@ -106,8 +127,9 @@ public class DataBaseHandler {
         return count > 0;
     }
 
+    // Добавление Order
     public void addOrder(Order order) throws SQLException {
-        String insertQuery = "INSERT INTO orders (iduser, carmodel, carnumber, problemtype, date, time, status) " +
+        String insertQuery = "INSERT INTO orders (userid, carmodel, carnumber, problemtype, date, time, status) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
@@ -124,10 +146,9 @@ public class DataBaseHandler {
         }
     }
 
-    // Метод вытаскивает
     public List<Order> getOrdersByUserId(int userId) throws SQLException {
         List<Order> orders = new ArrayList<>();
-        String query = "SELECT idorder, carmodel, problemtype, status FROM orders WHERE iduser = ?";
+        String query = "SELECT idorder, carmodel, problemtype, status FROM orders WHERE userid = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, userId);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -163,6 +184,22 @@ public class DataBaseHandler {
         }
     }
 
+    public void updateOrderStatusById(int orderId, String newStatus) throws SQLException {
+        String updateQuery = "UPDATE orders SET status = ? WHERE idorder = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+            preparedStatement.setString(1, newStatus);
+            preparedStatement.setInt(2, orderId);
+            int rowsUpdated = preparedStatement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("updateOrderStatusById(): User details updated successfully!");
+            } else {
+                System.out.println("updateOrderStatusById(): No user found with the given ID.");
+            }
+        }
+    }
+
     public List<Order> getAllOrders() throws SQLException {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT * FROM orders";
@@ -171,7 +208,7 @@ public class DataBaseHandler {
             while (resultSet.next()) {
                 Order order = new Order();
                 order.setId(resultSet.getInt("idorder"));
-                order.setUserId(resultSet.getInt("iduser"));
+                order.setUserId(resultSet.getInt("userid"));
                 order.setCarModel(resultSet.getString("carmodel"));
                 order.setCarNumber(resultSet.getString("carnumber"));
                 order.setProblemType(resultSet.getString("problemtype"));
@@ -182,6 +219,112 @@ public class DataBaseHandler {
             }
         }
         return orders;
+    }
+
+    public void addCar(Car car) throws SQLException {
+        String insertQuery = "INSERT INTO cars (userId, carModel, carNumber) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            preparedStatement.setInt(1, car.getUserId());
+            preparedStatement.setString(2, car.getCarModel());
+            preparedStatement.setString(3, car.getCarNumber());
+
+            preparedStatement.executeUpdate();
+            System.out.println("addCar(): Car added successfully.");
+        }
+    }
+
+    public List<Car> getAllCars() throws SQLException {
+        List<Car> cars = new ArrayList<>();
+        String query = "SELECT * FROM cars";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Car car = new Car();
+                car.setId(resultSet.getInt("id"));
+                car.setUserId(resultSet.getInt("userId"));
+                car.setCarModel(resultSet.getString("carModel"));
+                car.setCarNumber(resultSet.getString("carNumber"));
+                cars.add(car);
+            }
+        }
+        return cars;
+    }
+
+    public ObservableList<PieChart.Data> getCarDataForPieChart() throws SQLException {
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+
+        // Получение данных о количестве машин по каждой марке из базы данных
+        String query = "SELECT carModel, COUNT(*) as count FROM cars GROUP BY carModel";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String carModel = resultSet.getString("carModel");
+                int count = resultSet.getInt("count");
+                pieChartData.add(new PieChart.Data(carModel, count));
+            }
+        }
+        return pieChartData;
+    }
+
+    public void deleteCar(int carId) throws SQLException {
+        String deleteQuery = "DELETE FROM cars WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+            preparedStatement.setInt(1, carId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("deleteCar(): Car deleted successfully.");
+            } else {
+                System.out.println("deleteCar(): No car found with the given ID.");
+            }
+        }
+    }
+
+    public List<User> getAllUsers() throws SQLException {
+        List<User> userList = new ArrayList<>();
+
+        try (Statement statement = connection.createStatement()) {
+            String selectQuery = "SELECT * FROM users";
+            ResultSet resultSet = statement.executeQuery(selectQuery);
+
+            // Обработка результатов запроса
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String login = resultSet.getString("login");
+                String password = resultSet.getString("password");
+                String name = resultSet.getString("name");
+                String surname = resultSet.getString("surname");
+                String role = resultSet.getString("role");
+
+                // Создание объекта User и добавление его в список
+                User user = new User(id, login, password, name, surname, role);
+                userList.add(user);
+            }
+        }
+
+        return userList;
+    }
+
+    public void deleteUserByLogin(String login) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE login = ?")) {
+            preparedStatement.setString(1, login);
+            preparedStatement.executeUpdate();
+            System.out.println("User with login '" + login + "' has been deleted successfully.");
+        }
+    }
+
+    public void updateUserById(User user) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                "UPDATE users SET login = ?, password = ?, name = ?, surname = ?, role = ? WHERE id = ?")) {
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getName());
+            preparedStatement.setString(4, user.getSurname());
+            preparedStatement.setString(5, user.getRole());
+            preparedStatement.setInt(6, user.getId());
+            preparedStatement.executeUpdate();
+            System.out.println("User with ID '" + user.getId() + "' has been updated successfully.");
+        }
     }
 
 }

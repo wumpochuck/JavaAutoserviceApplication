@@ -1,84 +1,81 @@
 package sample;
 
 public class User {
-    private int _id;
-    private String _login;
-    private String _password;
-    private String _name;
-    private String _surname;
-    private String _role;
+    private int id;
+    private String login;
+    private String password;
+    private String name;
+    private String surname;
+    private String role;
 
     public User(){}
 
     public User(int id, String login, String password, String name, String surname, String role){
-        _id = id;
-        _login = login;
-        _password = password;
-        _name = name;
-        _surname = surname;
-        _role = role;
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.role = role;
     }
 
     // Геттеры
 
     public int getId(){
-        return _id;
+        return id;
     }
 
     public String getLogin() {
-        return _login;
+        return login;
     }
 
     public String getPassword() {
-        return _password;
+        return password;
     }
 
     public String getName() {
-        if(_name == null) return "";
-        return _name;
+        if (name == null) return "";
+        return name;
     }
 
     public String getSurname() {
-        if(_surname == null) return "";
-        return _surname;
+        if (surname == null) return "";
+        return surname;
     }
 
     public String getRole(){
-        return _role;
+        return role;
     }
 
     public String getFullName(){
-        if(!_name.equals("") && !_surname.equals("")){
-            return _surname + " " + _name;
-        } else return _login;
+        if (!name.equals("") && !surname.equals("")){
+            return surname + " " + name;
+        } else return login;
     }
+
     // Сеттеры
 
     public void setId(int id){
-        _id = id;
+        this.id = id;
     }
 
     public void setLogin(String login) {
-        //if (login == null){
-        //    _login = "123";
-        //} else {
-        _login = login;
-        //}
+        this.login = login;
     }
 
     public void setPassword(String password) {
-        _password = password;
+        this.password = password;
     }
 
     public void setName(String name) {
-        _name = name;
+        this.name = name;
     }
 
     public void setSurname(String surname) {
-        _surname = surname;
+        this.surname = surname;
     }
 
     public void setRole(String role){
-        _role = role;
+        this.role = role;
     }
 }

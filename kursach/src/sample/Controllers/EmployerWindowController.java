@@ -2,21 +2,25 @@ package sample.Controllers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sample.Car;
+import sample.DataBaseHandler;
 import sample.Order;
 
 public class EmployerWindowController {
@@ -26,9 +30,6 @@ public class EmployerWindowController {
 
     @FXML
     private URL location;
-
-    @FXML
-    private Text carsChoicedCarID;
 
     @FXML
     private TableColumn<Car, String> carsColumnCarModel;
@@ -67,10 +68,7 @@ public class EmployerWindowController {
     private Button ordersApplyStatusButton;
 
     @FXML
-    private ChoiceBox<?> ordersChoiceBoxSetStatus;
-
-    @FXML
-    private Text ordersChoicedOrderText;
+    private ChoiceBox<String> ordersChoiceBoxSetStatus;
 
     @FXML
     private TableColumn<Order, String> ordersColumnCarModel;
@@ -102,17 +100,28 @@ public class EmployerWindowController {
     @FXML
     private Button switcherTablesButton;
 
+    @FXML
+    private Button updateButton;
+
     private String current_window = "Orders";
+    private static ObservableList<String> statuses = FXCollections.observableArrayList(Arrays.asList("Рассматривается","Принята","В работе", "Выполнена"));
 
     @FXML
     void initialize() {
 
+        hideAllPages();
+        ordersPane.setVisible(true);
+
         exitButton.setOnAction(event -> onExitButtonClick());
         switcherTablesButton.setOnAction(event -> onSwitcherTablesButtonClick());
+        updateButton.setOnAction(event -> { try { onUpdateButtonClick(); } catch (SQLException e) { e.printStackTrace(); } });
+        ordersApplyStatusButton.setOnAction(event -> { try { onOrderApplyStatusButtonClick(); } catch (SQLException e) { e.printStackTrace(); } });
+        ordersAddCarButton.setOnAction(event -> { try { onOrderAddCarButtonClick(); } catch (SQLException e) { e.printStackTrace(); } });
+        carsDeleteCarButton.setOnAction(event -> { try { onCarsDeleteButtonClick(); } catch (SQLException e) { e.printStackTrace(); } });
 
         orderTableInit();
+        carTableInit();
 
-        assert carsChoicedCarID != null : "fx:id=\"carsChoicedCarID\" was not injected: check your FXML file 'employerWindow.fxml'.";
         assert carsColumnCarModel != null : "fx:id=\"carsColumnCarModel\" was not injected: check your FXML file 'employerWindow.fxml'.";
         assert carsColumnCarNumber != null : "fx:id=\"carsColumnCarNumber\" was not injected: check your FXML file 'employerWindow.fxml'.";
         assert carsColumnID != null : "fx:id=\"carsColumnID\" was not injected: check your FXML file 'employerWindow.fxml'.";
@@ -126,7 +135,6 @@ public class EmployerWindowController {
         assert ordersAddCarButton != null : "fx:id=\"ordersAddCarButton\" was not injected: check your FXML file 'employerWindow.fxml'.";
         assert ordersApplyStatusButton != null : "fx:id=\"ordersApplyStatusButton\" was not injected: check your FXML file 'employerWindow.fxml'.";
         assert ordersChoiceBoxSetStatus != null : "fx:id=\"ordersChoiceBoxSetStatus\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert ordersChoicedOrderText != null : "fx:id=\"ordersChoicedOrderText\" was not injected: check your FXML file 'employerWindow.fxml'.";
         assert ordersColumnCarModel != null : "fx:id=\"ordersColumnCarModel\" was not injected: check your FXML file 'employerWindow.fxml'.";
         assert ordersColumnCarNumber != null : "fx:id=\"ordersColumnCarNumber\" was not injected: check your FXML file 'employerWindow.fxml'.";
         assert ordersColumnDate != null : "fx:id=\"ordersColumnDate\" was not injected: check your FXML file 'employerWindow.fxml'.";
@@ -137,6 +145,7 @@ public class EmployerWindowController {
         assert ordersPane != null : "fx:id=\"ordersPane\" was not injected: check your FXML file 'employerWindow.fxml'.";
         assert ordersTable != null : "fx:id=\"ordersTable\" was not injected: check your FXML file 'employerWindow.fxml'.";
         assert switcherTablesButton != null : "fx:id=\"switcherTablesButton\" was not injected: check your FXML file 'employerWindow.fxml'.";
+        assert updateButton != null : "fx:id=\"updateButton\" was not injected: check your FXML file 'employerWindow.fxml'.";
 
     }
 
@@ -188,25 +197,83 @@ public class EmployerWindowController {
         newStage.show();
     }
 
+    public void onUpdateButtonClick() throws SQLException {
+        ordertableUpdate();
+        carTableUpdate();
+    }
+
     // ORDERS --------------------------------------------------------------
 
     public void orderTableInit(){
         ordersColumnID.setCellValueFactory(new PropertyValueFactory<Order,Integer>("id"));
-        ordersColumnUserID.setCellValueFactory(new PropertyValueFactory<Order,Integer>("userid"));
+        ordersColumnUserID.setCellValueFactory(new PropertyValueFactory<Order,Integer>("userId"));
         ordersColumnCarModel.setCellValueFactory(new PropertyValueFactory<Order,String>("carModel"));
         ordersColumnCarNumber.setCellValueFactory(new PropertyValueFactory<Order,String>("carNumber"));
         ordersColumnProblems.setCellValueFactory(new PropertyValueFactory<Order,String>("problemType"));
         ordersColumnDate.setCellValueFactory(new PropertyValueFactory<Order,String>("date"));
         ordersColumnTime.setCellValueFactory(new PropertyValueFactory<Order,String>("time"));
         orderColumnStatus.setCellValueFactory(new PropertyValueFactory<Order,String>("status"));
+
+        ordersChoiceBoxSetStatus.setItems(statuses);
     }
 
-    public void orderTableUpdate(){
+    public void ordertableUpdate() throws SQLException {
+        List<Order> orders = new DataBaseHandler().getAllOrders();
+        ObservableList<Order> data = FXCollections.observableArrayList(orders);
+        ordersTable.setItems(data);
 
+    }
+
+    public void onOrderApplyStatusButtonClick() throws SQLException {
+        Order order = ordersTable.getSelectionModel().getSelectedItem();
+        String new_status = ordersChoiceBoxSetStatus.getValue().toString();
+        new DataBaseHandler().updateOrderStatusById(order.getId(),new_status);
+
+        ordertableUpdate();
+    }
+
+    public void onOrderAddCarButtonClick() throws SQLException {
+        // Создание "сообщения"
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+
+        Order order = ordersTable.getSelectionModel().getSelectedItem();
+        Car new_car = new Car(order.getUserId(),order.getCarModel(),order.getCarNumber());
+        new DataBaseHandler().addCar(new_car);
+
+        alert.setContentText("Автомобиль успешно перенесён!");
+        alert.showAndWait();
+
+        carTableUpdate();
     }
 
     // CARS ----------------------------------------------------------------
 
+    public void carTableInit(){
+        carsColumnID.setCellValueFactory(new PropertyValueFactory<Car,Integer>("id"));
+        carsColumnUserID.setCellValueFactory(new PropertyValueFactory<Car,Integer>("userId"));
+        carsColumnCarModel.setCellValueFactory(new PropertyValueFactory<Car, String>("carModel"));
+        carsColumnCarNumber.setCellValueFactory(new PropertyValueFactory<Car, String>("carNumber"));
+    }
 
+    public void carTableUpdate() throws SQLException {
+        List<Car> cars = new DataBaseHandler().getAllCars();
+        ObservableList<Car> data1 = FXCollections.observableArrayList(cars);
+        carsTable.setItems(data1);
+
+        pieChartUpdate();
+    }
+
+    public void pieChartUpdate() throws SQLException {
+        ObservableList<PieChart.Data> pieChartData = new DataBaseHandler().getCarDataForPieChart();
+        carsPieSchema.setData(pieChartData);
+    }
+
+    public void onCarsDeleteButtonClick() throws SQLException {
+        Car car = carsTable.getSelectionModel().getSelectedItem();
+        new DataBaseHandler().deleteCar(car.getId());
+
+        carTableUpdate();
+    }
 
 }

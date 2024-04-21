@@ -1,101 +1,101 @@
 package sample;
 
 public class Order {
-    private int _id;
-    private int _userid;
-    private String _carModel;
-    private String _carNumber;
-    private String _problemType;
-    private String _date;
-    private String _time;
-    private String _status;
+    private int id;
+    private int userId;
+    private String carModel;
+    private String carNumber;
+    private String problemType;
+    private String date;
+    private String time;
+    private String status;
 
     public Order(){}
 
-    public Order(int userid, String carModel, String carNumber, String problemtype, String date, String time, String status) {
-        _userid = userid;
-        _carModel = carModel;
-        _carNumber = carNumber;
-        _problemType = problemtype;
-        _date = date;
-        _time = time;
-        _status = status;
+    public Order(int userId, String carModel, String carNumber, String problemType, String date, String time, String status) {
+        this.userId = userId;
+        this.carModel = carModel;
+        this.carNumber = carNumber;
+        this.problemType = problemType;
+        this.date = date;
+        this.time = time;
+        this.status = status;
     }
 
-    public Order(int id, int userid, String carModel, String carNumber, String problemtype, String date, String time, String status) {
-        _id = id;
-        _userid = userid;
-        _carModel = carModel;
-        _carNumber = carNumber;
-        _problemType = problemtype;
-        _date = date;
-        _time = time;
-        _status = status;
+    public Order(int id, int userId, String carModel, String carNumber, String problemType, String date, String time, String status) {
+        this.id = id;
+        this.userId = userId;
+        this.carModel = carModel;
+        this.carNumber = carNumber;
+        this.problemType = problemType;
+        this.date = date;
+        this.time = time;
+        this.status = status;
     }
 
     // Геттеры
     public int getId() {
-        return _id;
+        return id;
     }
 
     public int getUserId() {
-        return _userid;
+        return userId;
     }
 
     public String getCarModel() {
-        return _carModel;
+        return carModel;
     }
 
     public String getCarNumber() {
-        return _carNumber;
+        return carNumber;
     }
 
     public String getProblemType() {
-        return _problemType;
+        return problemType;
     }
 
     public String getDate() {
-        return _date;
+        return date;
     }
 
     public String getTime() {
-        return _time;
+        return time;
     }
 
     public String getStatus() {
-        return _status;
+        return status;
     }
 
     // Сеттеры
     public void setId(int id) {
-        _id = id;
+        this.id = id;
     }
 
-    public void setUserId(int userid) {
-        _userid = userid;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public void setCarModel(String carModel) {
-        _carModel = carModel;
+        this.carModel = carModel;
     }
 
     public void setCarNumber(String carNumber) {
-        _carNumber = carNumber;
+        this.carNumber = carNumber;
     }
 
-    public void setProblemType(String problemtype) {
-        _problemType = problemtype;
+    public void setProblemType(String problemType) {
+        this.problemType = problemType;
     }
 
     public void setDate(String date) {
-        _date = date;
+        this.date = date;
     }
 
     public void setTime(String time) {
-        _time = time;
+        this.time = time;
     }
 
     public void setStatus(String status) {
-        _status = status;
+        this.status = status;
     }
 }
