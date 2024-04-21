@@ -212,7 +212,17 @@ public class AdminWindowController {
     }
 
     public void onDeleteUserButtonClick(){
+        // Создание "сообщения"
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+
         User chosen_user = userTable.getSelectionModel().getSelectedItem();
+        if(chosen_user.getId() == 0){
+            alert.setContentText("Невозможно удалить этого пользователя!");
+            alert.showAndWait();
+            return;
+        }
+
         try {
             new DataBaseHandler().deleteUserByLogin(chosen_user.getLogin());
             usersTableUpdate();

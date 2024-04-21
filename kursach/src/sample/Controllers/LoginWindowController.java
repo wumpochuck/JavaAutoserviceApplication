@@ -122,8 +122,9 @@ public class LoginWindowController {
             PlayShakeAnimation();
             return;
         }
-        alert.setContentText("Вы успешно вошли!");
-        alert.showAndWait();
+
+        //alert.setContentText("Вы успешно вошли!");
+        //alert.showAndWait();
 
         current_user.setId(DataBaseUser.getId());
         current_user.setLogin(DataBaseUser.getLogin());
