@@ -146,6 +146,29 @@ public class DataBaseHandler {
         }
     }
 
+    public List<Order> getOrderByCarModel(String carModel) throws SQLException {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM orders WHERE carmodel = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+             statement.setString(1, carModel);
+             try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Order order = new Order();
+                    order.setId(resultSet.getInt("idorder"));
+                    order.setUserId(resultSet.getInt("userid"));
+                    order.setCarModel(resultSet.getString("carmodel"));
+                    order.setCarNumber(resultSet.getString("carnumber"));
+                    order.setProblemType(resultSet.getString("problemtype"));
+                    order.setDate(resultSet.getString("date"));
+                    order.setTime(resultSet.getString("time"));
+                    order.setStatus(resultSet.getString("status"));
+                    orders.add(order);
+                }
+            }
+        }
+        return orders;
+    }
+
     public List<Order> getOrdersByUserId(int userId) throws SQLException {
         List<Order> orders = new ArrayList<>();
         String query = "SELECT idorder, carmodel, problemtype, status FROM orders WHERE userid = ?";
@@ -327,4 +350,58 @@ public class DataBaseHandler {
         }
     }
 
+    /*
+    public void insertTwentyUsers() throws SQLException {
+        String insertQuery = "INSERT INTO users (login, password, name, surname, role) VALUES (?, ?, ?, ?, ?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            String[] logins = {"user1", "user2", "user3", "user4", "user5", "user6", "user7", "user8", "user9", "user10", "user11", "user12", "user13", "user14", "user15", "user16", "user17", "user18", "user19", "user20"};
+            String[] passwords = {"password1", "password2", "password3", "password4", "password5", "password6", "password7", "password8", "password9", "password10", "password11", "password12", "password13", "password14", "password15", "password16", "password17", "password18", "password19", "password20"};
+            String[] names = {"Иван", "Мария", "Александр", "Елена", "Дмитрий", "Анна", "Сергей", "Ольга", "Николай", "Екатерина", "Андрей", "Татьяна", "Алексей", "Виктория", "Артем", "Евгения", "Игорь", "Наталья", "Станислав", "Анастасия"};
+            String[] surnames = {"Петров", "Иванова", "Смирнов", "Кузнецова", "Попов", "Соколова", "Лебедев", "Козлова", "Новиков", "Морозова", "Павлов", "Волкова", "Семенов", "Федорова", "Морозов", "Васильева", "Петров", "Соловьёва", "Волков", "Виноградова"};
+            String[] roles = {"guest", "guest", "guest", "guest", "employer", "guest", "guest", "guest", "admin", "guest", "guest", "guest", "guest", "guest", "guest", "guest", "guest", "guest", "guest", "guest"};
+
+            for (int i = 0; i < 20; i++) {
+                preparedStatement.setString(1, logins[i]);
+                preparedStatement.setString(2, passwords[i]);
+                preparedStatement.setString(3, names[i]);
+                preparedStatement.setString(4, surnames[i]);
+                preparedStatement.setString(5, roles[i]);
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+            System.out.println("Twenty users inserted successfully.");
+        }
+    }
+    */
+
+    /*
+    public void insertTwentyOrders() throws SQLException {
+        String insertQuery = "INSERT INTO orders (userid, carmodel, carnumber, problemtype, date, time, status) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            int[] userIds = {5, 6, 7, 8, 9, 10, 11, 12, 5, 6, 7, 8}; // UserIDs от 5 до 12 и повторение для некоторых пользователей
+            String[] carModels = {"Toyota", "Honda", "Ford", "BMW", "Mercedes", "Volkswagen", "Toyota", "Honda", "Audi", "Lexus", "Toyota", "Honda"};
+            String[] carNumbers = {"AB1234", "CD5678", "EF91011", "GH121314", "IJ151617", "KL181920", "AB1234", "CD5678", "MN212223", "OP242526", "AB1234", "CD5678"};
+            String[] problemTypes = {"Проблема с двигателем", "Проблема с тормозами", "Проблема с трансмиссией", "Проблема с подвеской", "Проблема с электрикой", "Проблема с кондиционером", "Проблема с двигателем", "Проблема с тормозами", "Проблема с выхлопной системой", "Проблема с топливной системой", "Проблема с двигателем", "Проблема с тормозами"};
+            String[] dates = {"2024-04-15", "2024-04-16", "2024-04-17", "2024-04-18", "2024-04-19", "2024-04-20", "2024-04-21", "2024-04-22", "2024-04-23", "2024-04-24", "2024-04-25", "2024-04-26"};
+            String[] times = {"09:00", "12:00", "15:00", "18:00", "21:00"};
+            String statuses = "Рассматривается";
+
+            for (int i = 0; i < 12; i++) {
+                preparedStatement.setInt(1, userIds[i]);
+                preparedStatement.setString(2, carModels[i]);
+                preparedStatement.setString(3, carNumbers[i]);
+                preparedStatement.setString(4, problemTypes[i]);
+                preparedStatement.setString(5, dates[i % 6]); // Использование модуля для циклического прохода по массиву дат
+                preparedStatement.setString(6, times[i % 5]); // Использование модуля для циклического прохода по массиву времени
+                preparedStatement.setString(7, statuses); // Использование модуля для циклического прохода по массиву статусов
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+            System.out.println("Twenty orders inserted successfully.");
+        }
+    }
+    */
 }

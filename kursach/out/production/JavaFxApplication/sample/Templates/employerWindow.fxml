@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -37,7 +38,7 @@
             </Button>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="ordersPane" layoutY="100.0" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: #dddde1;" visible="false">
+      <AnchorPane fx:id="ordersPane" layoutY="100.0" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: #dddde1;">
          <children>
             <TableView fx:id="ordersTable" layoutX="25.0" layoutY="25.0" prefHeight="450.0" prefWidth="1150.0" style="-fx-background-color: #bebec1;">
               <columns>
@@ -75,9 +76,19 @@
                   <Font size="16.0" />
                </font>
             </Button>
+            <Text layoutX="25.0" layoutY="525.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Поиск по модели:">
+               <font>
+                  <Font size="33.0" />
+               </font>
+            </Text>
+            <TextField fx:id="ordersSearchText" layoutX="300.0" layoutY="500.0" prefHeight="33.0" prefWidth="200.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </TextField>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="carsPane" layoutY="100.0" prefHeight="600.0" prefWidth="1200.0">
+      <AnchorPane fx:id="carsPane" layoutY="100.0" prefHeight="600.0" prefWidth="1200.0" visible="false">
          <children>
             <TableView fx:id="carsTable" layoutX="25.0" layoutY="25.0" prefHeight="525.0" prefWidth="600.0">
               <columns>

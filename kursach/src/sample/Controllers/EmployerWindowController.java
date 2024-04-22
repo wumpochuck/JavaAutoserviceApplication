@@ -103,6 +103,9 @@ public class EmployerWindowController {
     @FXML
     private Button updateButton;
 
+    @FXML
+    private TextField ordersSearchText;
+
     private String current_window = "Orders";
     private static ObservableList<String> statuses = FXCollections.observableArrayList(Arrays.asList("Рассматривается","Принята","В работе", "Выполнена"));
 
@@ -122,6 +125,7 @@ public class EmployerWindowController {
         orderTableInit();
         carTableInit();
 
+        assert ordersSearchText != null : "fx:id=\"ordersSearchText\" was not injected: check your FXML file 'employerWindow.fxml'.";
         assert carsColumnCarModel != null : "fx:id=\"carsColumnCarModel\" was not injected: check your FXML file 'employerWindow.fxml'.";
         assert carsColumnCarNumber != null : "fx:id=\"carsColumnCarNumber\" was not injected: check your FXML file 'employerWindow.fxml'.";
         assert carsColumnID != null : "fx:id=\"carsColumnID\" was not injected: check your FXML file 'employerWindow.fxml'.";
@@ -218,7 +222,14 @@ public class EmployerWindowController {
     }
 
     public void ordertableUpdate() throws SQLException {
-        List<Order> orders = new DataBaseHandler().getAllOrders();
+        String searchText = ordersSearchText.getText();
+        List<Order> orders;
+
+        if(searchText.equals(null) || searchText.equals("")) {
+            orders = new DataBaseHandler().getAllOrders();
+        } else{
+            orders = new DataBaseHandler().getOrderByCarModel(searchText);
+        }
         ObservableList<Order> data = FXCollections.observableArrayList(orders);
         ordersTable.setItems(data);
 
