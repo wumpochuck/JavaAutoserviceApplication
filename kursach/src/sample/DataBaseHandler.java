@@ -26,7 +26,7 @@ public class DataBaseHandler {
     public Connection getConnection() throws ClassNotFoundException, SQLException {
         String urlConnection = "jdbc:mysql://127.0.0.1:3306/Autoservice";
         Class.forName("com.mysql.cj.jdbc.Driver");
-        connection = DriverManager.getConnection(urlConnection, "root", "a32gDF%b23");
+        connection = DriverManager.getConnection(urlConnection, "root", "password");
         return connection;
     }
 
