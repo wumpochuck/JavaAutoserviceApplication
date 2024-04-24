@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,7 +16,6 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import sample.Car;
 import sample.DataBaseHandler;
@@ -107,11 +105,11 @@ public class EmployerWindowController {
     private TextField ordersSearchText;
 
     private String current_window = "Orders";
-    private static ObservableList<String> statuses = FXCollections.observableArrayList(Arrays.asList("Рассматривается","Принята","В работе", "Выполнена"));
+    private static ObservableList<String> statuses = FXCollections.observableArrayList(
+            Arrays.asList("Рассматривается","Принята","В работе", "Выполнена"));
 
     @FXML
     void initialize() {
-
         hideAllPages();
         ordersPane.setVisible(true);
 
@@ -124,36 +122,9 @@ public class EmployerWindowController {
 
         orderTableInit();
         carTableInit();
-
-        assert ordersSearchText != null : "fx:id=\"ordersSearchText\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert carsColumnCarModel != null : "fx:id=\"carsColumnCarModel\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert carsColumnCarNumber != null : "fx:id=\"carsColumnCarNumber\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert carsColumnID != null : "fx:id=\"carsColumnID\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert carsColumnUserID != null : "fx:id=\"carsColumnUserID\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert carsDeleteCarButton != null : "fx:id=\"carsDeleteCarButton\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert carsPane != null : "fx:id=\"carsPane\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert carsPieSchema != null : "fx:id=\"carsPieSchema\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert carsTable != null : "fx:id=\"carsTable\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert exitButton != null : "fx:id=\"exitButton\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert orderColumnStatus != null : "fx:id=\"orderColumnStatus\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert ordersAddCarButton != null : "fx:id=\"ordersAddCarButton\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert ordersApplyStatusButton != null : "fx:id=\"ordersApplyStatusButton\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert ordersChoiceBoxSetStatus != null : "fx:id=\"ordersChoiceBoxSetStatus\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert ordersColumnCarModel != null : "fx:id=\"ordersColumnCarModel\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert ordersColumnCarNumber != null : "fx:id=\"ordersColumnCarNumber\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert ordersColumnDate != null : "fx:id=\"ordersColumnDate\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert ordersColumnID != null : "fx:id=\"ordersColumnID\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert ordersColumnProblems != null : "fx:id=\"ordersColumnProblems\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert ordersColumnTime != null : "fx:id=\"ordersColumnTime\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert ordersColumnUserID != null : "fx:id=\"ordersColumnUserID\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert ordersPane != null : "fx:id=\"ordersPane\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert ordersTable != null : "fx:id=\"ordersTable\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert switcherTablesButton != null : "fx:id=\"switcherTablesButton\" was not injected: check your FXML file 'employerWindow.fxml'.";
-        assert updateButton != null : "fx:id=\"updateButton\" was not injected: check your FXML file 'employerWindow.fxml'.";
-
     }
 
-    // УПРАВЛЕНИЕ -----------------------------------------------------------
+    // CONTROLS --------------------------------------------------------------------------------------------------------
 
     public void hideAllPages(){
         carsPane.setVisible(false);
@@ -186,7 +157,6 @@ public class EmployerWindowController {
         Stage currentStage = (Stage) exitButton.getScene().getWindow();
         currentStage.close();
 
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(window));
         try {
@@ -206,7 +176,7 @@ public class EmployerWindowController {
         carTableUpdate();
     }
 
-    // ORDERS --------------------------------------------------------------
+    // ORDERS ----------------------------------------------------------------------------------------------------------
 
     public void orderTableInit(){
         ordersColumnID.setCellValueFactory(new PropertyValueFactory<Order,Integer>("id"));
@@ -232,7 +202,6 @@ public class EmployerWindowController {
         }
         ObservableList<Order> data = FXCollections.observableArrayList(orders);
         ordersTable.setItems(data);
-
     }
 
     public void onOrderApplyStatusButtonClick() throws SQLException {
@@ -258,7 +227,7 @@ public class EmployerWindowController {
         carTableUpdate();
     }
 
-    // CARS ----------------------------------------------------------------
+    // CARS ------------------------------------------------------------------------------------------------------------
 
     public void carTableInit(){
         carsColumnID.setCellValueFactory(new PropertyValueFactory<Car,Integer>("id"));
@@ -286,5 +255,4 @@ public class EmployerWindowController {
 
         carTableUpdate();
     }
-
 }

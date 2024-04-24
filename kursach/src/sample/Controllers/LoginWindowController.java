@@ -6,8 +6,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -18,9 +16,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import sample.Animations.ShakeAnimation;
+import sample.Animations.SwitchLogRegAnimation;
 import sample.DataBaseHandler;
 import sample.User;
-
 
 public class LoginWindowController {
 
@@ -67,64 +65,48 @@ public class LoginWindowController {
 
     @FXML
     void initialize() {
+        initSettings();
         current_user = new User();
 
-        switchRegistrationButton.setOnAction(event -> {onSwitchRegistrationButtonClick(LoginPane, RegistrationPane);});
-
-        backButton.setOnAction(event -> {onBackButtonClick(LoginPane, RegistrationPane);});
-
-        loginButton.setOnAction(event -> {
-            try {
-                onLoginButtonClick(loginButton);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-
-        registerButton.setOnAction(event -> {
-            try {
-                onRegisterButtonClick();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-
+        switchRegistrationButton.setOnAction(event -> {onSwitchToRegistration();});
+        backButton.setOnAction(event -> {onSwitchToLogin();});
+        loginButton.setOnAction(event -> { try { onLoginButtonClick(); } catch (SQLException e) { e.printStackTrace(); } });
+        registerButton.setOnAction(event -> { try { onRegisterButtonClick(); } catch (SQLException e) { e.printStackTrace(); } });
     }
 
-    public void onSwitchRegistrationButtonClick(AnchorPane loginPane, AnchorPane registrationPane) {
-        loginPane.setVisible(false);
-        registrationPane.setVisible(true);
+    private void initSettings(){
+        LoginPane.setVisible(true);
+        LoginPane.setDisable(false);
+        RegistrationPane.setVisible(true);
+        RegistrationPane.setDisable(true);
     }
 
-    public void onBackButtonClick(AnchorPane loginPane, AnchorPane registrationPane){
-        loginPane.setVisible(true);
-        registrationPane.setVisible(false);
+    private void onSwitchToRegistration() { SwitchLogRegAnimation.switchToRegistration(LoginPane, RegistrationPane); }
+
+    private void onSwitchToLogin() {
+        SwitchLogRegAnimation.switchToLogin(LoginPane, RegistrationPane);
     }
 
-    public void onLoginButtonClick(Button loginButton) throws SQLException {
+    public void onLoginButtonClick() throws SQLException {
         // Создание "сообщения"
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setHeaderText(null);
 
-        // Логика проверки пароля
-
         String login = loginField1.getText();
         String password = passwordField1.getText();
 
-        // 1й этап проверки - Неправильное имя пользователя
+        // Если пользователя нету
         if(new DataBaseHandler().getUserByLogin(login) == null){
             alert.setContentText("Такого пользователя не существует!");
             alert.showAndWait();
             return;
         }
         User DataBaseUser = new DataBaseHandler().getUserByLogin(login);
+        // Если пароль не совпадает
         if(!password.equals(DataBaseUser.getPassword())){
             PlayShakeAnimation();
             return;
         }
-
-        //alert.setContentText("Вы успешно вошли!");
-        //alert.showAndWait();
 
         current_user.setId(DataBaseUser.getId());
         current_user.setLogin(DataBaseUser.getLogin());
@@ -137,23 +119,21 @@ public class LoginWindowController {
     }
 
     public void onRegisterButtonClick() throws SQLException {
-
         // Создание "сообщения"
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setHeaderText(null);
 
-        // Логика проверки регистрации
         String login = loginField2.getText();
         String password = passwordField2.getText();
         String passwordRepeat = passwordField3.getText();
 
-        // 1й этап проверки - такой пользователь уже существует
+        // Если пользователь существует
         if(new DataBaseHandler().getUserByLogin(login) != null){
             alert.setContentText("Такой пользователь уже существует!");
             alert.showAndWait();
             return;
         }
-        // 2й этап проверки - 2 пароля введены неверно
+        // Если пароли не совпадают
         if(!password.equals(passwordRepeat)){
             alert.setContentText("Пароли должны совпадать!");
             alert.showAndWait();
@@ -173,8 +153,6 @@ public class LoginWindowController {
     public void openNewScene(String window) {
         Stage currentStage = (Stage) loginButton.getScene().getWindow();
         currentStage.close();
-
-
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(window));
         try {
@@ -182,7 +160,6 @@ public class LoginWindowController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         Parent root = loader.getRoot();
         Stage newStage = new Stage();
         newStage.setScene(new Scene(root));

@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import sample.Animations.ButtonsPaneAnimation;
 import sample.DataBaseHandler;
 import sample.Order;
 import sample.User;
@@ -65,12 +66,6 @@ public class MainWindowController {
     private AnchorPane orderPage;
 
     @FXML
-    private Text orderText;
-
-    @FXML
-    private Text orderText1;
-
-    @FXML
     private TableColumn<Order, String> order_carColumn;
 
     @FXML
@@ -125,33 +120,23 @@ public class MainWindowController {
     private TextField profile_surnameText;
 
     @FXML
-    private AnchorPane proflePage;
+    private AnchorPane profilePage;
 
     @FXML
     private Text welcomeText;
 
+    @FXML
+    void hideButtonsPane(MouseEvent event) { ButtonsPaneAnimation.moveRight(buttonsPane); }
 
     @FXML
-    void hideButtonsPane(MouseEvent event) {
-        //new ButtonsPaneAnimation(buttonsPane,"toleft").play();
-        buttonsPane.setLayoutX(-300);
-    }
-
-    @FXML
-    void showButtonsPane(MouseEvent event) {
-        //new ButtonsPaneAnimation(buttonsPane,"toright").play();
-        buttonsPane.setLayoutX(0);
-    }
+    void showButtonsPane(MouseEvent event) { ButtonsPaneAnimation.moveLeft(buttonsPane); }
 
     public static User current_user;
     public static ObservableList<String> times = FXCollections.observableArrayList(Arrays.asList("09:00", "12:00", "15:00", "18:00", "21:00"));
 
-
     @FXML
     void initialize() {
         initSettings();
-        // #383e81
-        // #3f458f
 
         welcomeText.setText(String.format("Добро пожаловать,\n%s!\nВы вошли как %s.",current_user.getFullName(), current_user.getRole()));
         exitButton.setOnAction(event -> onExitButtonClick());
@@ -170,43 +155,9 @@ public class MainWindowController {
         order_statusColumn.setCellValueFactory(new PropertyValueFactory<Order,String>("status"));
 
         profile_applyButton.setOnAction(event -> { try { profile_onApplyButtonClick(); } catch (SQLException e) { e.printStackTrace(); } });
-
-        assert adminButton != null : "fx:id=\"adminButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert buttonsPane != null : "fx:id=\"buttonsPane\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert employerButton != null : "fx:id=\"employerButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert exitButton != null : "fx:id=\"exitButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert mainButton != null : "fx:id=\"mainButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert mainButtonPane != null : "fx:id=\"mainButtonPane\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert mainPage != null : "fx:id=\"mainPage\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert orderButton != null : "fx:id=\"orderButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert orderButtonPane != null : "fx:id=\"orderButtonPane\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert orderPage != null : "fx:id=\"orderPage\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert orderText != null : "fx:id=\"orderText\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert orderText1 != null : "fx:id=\"orderText1\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert order_carColumn != null : "fx:id=\"order_carColumn\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert order_clearButton != null : "fx:id=\"order_clearButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert order_idColumn != null : "fx:id=\"order_idColumn\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert order_ordersTable != null : "fx:id=\"order_ordersTable\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert order_problemColumn != null : "fx:id=\"order_problemColumn\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert order_sendButton != null : "fx:id=\"order_sendButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert order_statusColumn != null : "fx:id=\"order_statusColumn\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert order_textCarModel != null : "fx:id=\"order_textCarModel\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert order_textCarNumber != null : "fx:id=\"order_textCarNumber\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert order_textDate != null : "fx:id=\"order_textDate\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert order_textProblem != null : "fx:id=\"order_textProblem\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert order_textTime != null : "fx:id=\"order_textTime\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert profileButton != null : "fx:id=\"profileButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert profileButtonPane != null : "fx:id=\"profileButtonPane\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert profile_applyButton != null : "fx:id=\"profile_applyButton\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert profile_dataText != null : "fx:id=\"profile_dataText\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert profile_nameText != null : "fx:id=\"profile_nameText\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert profile_surnameText != null : "fx:id=\"profile_surnameText\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert proflePage != null : "fx:id=\"proflePage\" was not injected: check your FXML file 'mainWindow.fxml'.";
-        assert welcomeText != null : "fx:id=\"welcomeText\" was not injected: check your FXML file 'mainWindow.fxml'.";
-
     }
 
-    // УПРАВЛЕНИЕ --------------------------------------------------
+    // CONTROLS --------------------------------------------------------------------------------------------------------
 
     public void initSettings(){
         onMainButtonClick();
@@ -217,13 +168,16 @@ public class MainWindowController {
     public void hideAllPages(){
         mainPage.setVisible(false);
         orderPage.setVisible(false);
-        proflePage.setVisible(false);
+        profilePage.setVisible(false);
     }
 
     public void recolorAllButtons(){
-        mainButtonPane.setStyle("-fx-background-color: #3f458f;");
-        orderButtonPane.setStyle("-fx-background-color: #3f458f;");
-        profileButtonPane.setStyle("-fx-background-color: #3f458f;");
+        mainButtonPane.setStyle("-fx-background-color: #BDD5EA; -fx-background-radius: 25;");
+        orderButtonPane.setStyle("-fx-background-color: #BDD5EA; -fx-background-radius: 25;");
+        profileButtonPane.setStyle("-fx-background-color: #BDD5EA; -fx-background-radius: 25;");
+        mainButton.setStyle("-fx-background-color: #495867; -fx-background-radius: 25;");
+        orderButton.setStyle("-fx-background-color: #495867; -fx-background-radius: 25;");
+        profileButton.setStyle("-fx-background-color: #495867; -fx-background-radius: 25;");
     }
 
     public void onExitButtonClick(){
@@ -235,8 +189,8 @@ public class MainWindowController {
         hideAllPages();
         recolorAllButtons();
         mainPage.setVisible(true);
-        mainButtonPane.setStyle("-fx-background-color: #383e81;");
-
+        mainButton.setStyle("-fx-background-color: #FE5F55; -fx-background-radius: 25;");
+        mainButtonPane.setStyle("-fx-background-color: #a3bfd7; -fx-background-radius: 25;");
     }
 
     public void onEmployerButtonClick(){
@@ -249,7 +203,6 @@ public class MainWindowController {
             alert.showAndWait();
             return;
         }
-
         openNewScene("/sample/Templates/employerWindow.fxml");
     }
 
@@ -263,15 +216,15 @@ public class MainWindowController {
             alert.showAndWait();
             return;
         }
-
         openNewScene("/sample/Templates/adminWindow.fxml");
     }
 
     public void onProfileButtonClick(){
         hideAllPages();
         recolorAllButtons();
-        proflePage.setVisible(true);
-        profileButtonPane.setStyle("-fx-background-color: #383e81;");
+        profilePage.setVisible(true);
+        profileButton.setStyle("-fx-background-color: #FE5F55; -fx-background-radius: 25;");
+        profileButtonPane.setStyle("-fx-background-color: #a3bfd7; -fx-background-radius: 25;");
         profile_init();
     }
 
@@ -279,14 +232,14 @@ public class MainWindowController {
         hideAllPages();
         recolorAllButtons();
         orderPage.setVisible(true);
-        orderButtonPane.setStyle("-fx-background-color: #383e81;");
+        orderButton.setStyle("-fx-background-color: #FE5F55; -fx-background-radius: 25;");
+        orderButtonPane.setStyle("-fx-background-color: #a3bfd7; -fx-background-radius: 25;");
         order_init();
     }
 
     public void openNewScene(String window) {
         Stage currentStage = (Stage) exitButton.getScene().getWindow();
         currentStage.close();
-
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(window));
@@ -302,7 +255,7 @@ public class MainWindowController {
         newStage.show();
     }
 
-    // ORDER PAGE ---------------------------------------------------------
+    // ORDER PAGE ------------------------------------------------------------------------------------------------------
 
     public void order_init() throws SQLException {
         order_onClearButtonClick();
@@ -322,14 +275,12 @@ public class MainWindowController {
         order_textDate.setValue(null);
         order_textTime.setItems(times);
         order_textTime.setValue("Выберите время");
-
     }
 
     public void order_onSendButtonClick() throws SQLException {
         // Создание "сообщения"
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
-
         // Проверки
         try {
             String carModel = order_textCarModel.getText();
@@ -350,17 +301,13 @@ public class MainWindowController {
                 alert.showAndWait();
                 return;
             }
-
-
             alert.setContentText("Заявка создана! Ожидайте рассмотрения");
             alert.showAndWait();
             Order order = new Order(current_user.getId(),carModel,carNumber,problem,date,time,"Рассматривается");
             new DataBaseHandler().addOrder(order);
 
             order_tableUpdate();
-
             }
-
         // 3 - Заполнена заявка
         catch (NullPointerException e) {
             alert.setContentText("Заполните заявку полностью!");
@@ -369,7 +316,7 @@ public class MainWindowController {
         }
     }
 
-    // PROFILE PAGE -------------------------------------------------------
+    // PROFILE PAGE ----------------------------------------------------------------------------------------------------
 
     public void profile_init(){
         profile_showInformation();
@@ -394,9 +341,7 @@ public class MainWindowController {
         if(surname.equals("")) surname = current_user.getSurname();
         current_user.setName(name);
         current_user.setSurname(surname);
-        new DataBaseHandler().updateUserById(current_user.getId(),name,surname);
+        new DataBaseHandler().updateUserById(current_user);
         profile_showInformation();
     }
-
-    // MISC ---------------------------------------------------------------
 }

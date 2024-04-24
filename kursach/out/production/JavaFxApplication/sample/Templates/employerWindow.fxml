@@ -11,36 +11,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #dddde1;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controllers.EmployerWindowController">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: F7F7FF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controllers.EmployerWindowController">
    <children>
-      <AnchorPane prefHeight="100.0" prefWidth="1200.0" style="-fx-background-color: #63689f;">
+      <AnchorPane fx:id="ordersPane" layoutY="100.0" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: #F7F7FF;" visible="false">
          <children>
-            <Text fill="#dddde1" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Управление заявками" textAlignment="CENTER" wrappingWidth="1200.0">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Text>
-            <Button fx:id="exitButton" layoutX="50.0" layoutY="25.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: #1d203c;" text="Выход" textFill="#dddde1">
-               <font>
-                  <Font size="23.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Button fx:id="switcherTablesButton" alignment="CENTER" contentDisplay="CENTER" layoutX="975.0" layoutY="25.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="175.0" style="-fx-background-color: #1d203c;" text="Заявки" textAlignment="CENTER" textFill="#dddde1">
-               <font>
-                  <Font size="23.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="ordersPane" layoutY="100.0" prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: #dddde1;">
-         <children>
-            <TableView fx:id="ordersTable" layoutX="25.0" layoutY="25.0" prefHeight="450.0" prefWidth="1150.0" style="-fx-background-color: #bebec1;">
+            <TableView fx:id="ordersTable" layoutX="25.0" layoutY="25.0" prefHeight="450.0" prefWidth="1150.0" style="-fx-background-color: #BDD5EA; -fx-background-radius: 25;">
               <columns>
                 <TableColumn fx:id="ordersColumnID" prefWidth="45.0" text="ID" />
                 <TableColumn fx:id="ordersColumnUserID" prefWidth="52.0" text="user ID" />
@@ -55,42 +30,51 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <ChoiceBox fx:id="ordersChoiceBoxSetStatus" layoutX="1025.0" layoutY="500.0" prefHeight="35.0" prefWidth="150.0" />
-            <Text layoutX="900.0" layoutY="525.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Статус:">
+            <ChoiceBox fx:id="ordersChoiceBoxSetStatus" layoutX="1025.0" layoutY="500.0" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: F7F7FF; -fx-border-color: #BDD5EA; -fx-background-radius: 15; -fx-border-radius: 15;" />
+            <Text fill="#495867" layoutX="933.0" layoutY="525.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Статус:">
                <font>
-                  <Font size="33.0" />
+                  <Font size="26.0" />
                </font>
             </Text>
-            <Button fx:id="ordersApplyStatusButton" layoutX="1025.0" layoutY="550.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" text="Подтвердить">
+            <Button fx:id="ordersApplyStatusButton" layoutX="1025.0" layoutY="550.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #495867; -fx-background-radius: 25;" text="Подтвердить" textFill="#f7f7ff">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
-            <Button fx:id="ordersAddCarButton" layoutX="650.0" layoutY="530.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="226.0" text="Добавить автомобиль&#10;выбранного пользователя">
+            <Button fx:id="ordersAddCarButton" layoutX="650.0" layoutY="530.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="226.0" style="-fx-background-color: #495867; -fx-background-radius: 25;" text="Добавить автомобиль&#10;выбранного пользователя" textFill="#f7f7ff">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="15.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
-            <Button fx:id="updateButton" layoutX="25.0" layoutY="550.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" text="Обновить">
+            <Button fx:id="updateButton" layoutX="25.0" layoutY="550.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #495867; -fx-background-radius: 25;" text="Обновить" textFill="#f7f7ff">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="16.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
-            <Text layoutX="25.0" layoutY="525.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Поиск по модели:">
+            <Text fill="#495867" layoutX="25.0" layoutY="525.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Поиск по модели:">
                <font>
-                  <Font size="33.0" />
+                  <Font name="System Bold" size="26.0" />
                </font>
             </Text>
-            <TextField fx:id="ordersSearchText" layoutX="300.0" layoutY="500.0" prefHeight="33.0" prefWidth="200.0">
+            <TextField fx:id="ordersSearchText" layoutX="300.0" layoutY="500.0" prefHeight="33.0" prefWidth="200.0" style="-fx-background-color: #BDD5EA;">
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="carsPane" layoutY="100.0" prefHeight="600.0" prefWidth="1200.0" visible="false">
+      <AnchorPane fx:id="carsPane" layoutY="100.0" prefHeight="600.0" prefWidth="1200.0">
          <children>
-            <TableView fx:id="carsTable" layoutX="25.0" layoutY="25.0" prefHeight="525.0" prefWidth="600.0">
+            <TableView fx:id="carsTable" layoutX="25.0" layoutY="25.0" prefHeight="525.0" prefWidth="600.0" style="-fx-background-color: #BDD5EA; -fx-background-radius: 25; -fx-border-color: #577399; -fx-border-radius: 25;">
               <columns>
                 <TableColumn fx:id="carsColumnID" prefWidth="48.0" text="ID" />
                 <TableColumn fx:id="carsColumnUserID" prefWidth="125.0" text="ID Владельца" />
@@ -101,17 +85,45 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button fx:id="carsDeleteCarButton" layoutX="350.0" layoutY="555.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="275.0" text="Удалить выбранный автомобиль">
+            <Button fx:id="carsDeleteCarButton" layoutX="350.0" layoutY="555.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="275.0" style="-fx-background-color: #495867; -fx-background-radius: 25;" text="УДАЛИТЬ ВЫБРАННЫЙ АВТОМОБИЛЬ" textFill="#f7f7ff">
                <font>
-                  <Font size="16.0" />
+                  <Font name="System Bold" size="13.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
-            <Text layoutX="700.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Анализ Марок автомобилей">
+            <Text fill="#495867" layoutX="700.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Анализ Марок автомобилей">
                <font>
-                  <Font size="33.0" />
+                  <Font name="System Bold" size="30.0" />
                </font>
             </Text>
-            <PieChart fx:id="carsPieSchema" layoutX="650.0" layoutY="75.0" prefHeight="500.0" prefWidth="525.0" style="-fx-background-color: #bebec1;" />
+            <PieChart fx:id="carsPieSchema" layoutX="650.0" layoutY="75.0" prefHeight="500.0" prefWidth="525.0" style="-fx-background-color: BDD5EA; -fx-background-radius: 25; -fx-border-color: #577399; -fx-border-radius: 25;" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="-25.0" prefHeight="125.0" prefWidth="1200.0" style="-fx-background-color: BDD5EA; -fx-background-radius: 25; -fx-border-color: #577399; -fx-border-radius: 25;">
+         <children>
+            <Text fill="#495867" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Управление заявками" textAlignment="CENTER" wrappingWidth="1200.0">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+            </Text>
+            <Button fx:id="exitButton" layoutX="975.0" layoutY="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="175.0" style="-fx-background-color: #495867; -fx-background-radius: 25;" text="ВЫХОД" textFill="#f7f7ff">
+               <font>
+                  <Font name="System Bold" size="23.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="switcherTablesButton" alignment="CENTER" contentDisplay="CENTER" layoutX="50.0" layoutY="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="175.0" style="-fx-background-color: #495867; -fx-background-radius: 25;" text="СМЕНИТЬ" textAlignment="CENTER" textFill="#f7f7ff">
+               <font>
+                  <Font name="System Bold" size="23.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </AnchorPane>
    </children>

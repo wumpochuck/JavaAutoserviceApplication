@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,7 +16,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sample.DataBaseHandler;
-import sample.Order;
 import sample.User;
 
 public class AdminWindowController {
@@ -83,7 +81,6 @@ public class AdminWindowController {
 
     @FXML
     void initialize() {
-
         usersInit();
 
         try{ usersTableUpdate(); } catch (SQLException e){ e.printStackTrace(); }
@@ -93,24 +90,6 @@ public class AdminWindowController {
         editDataButton.setOnAction(event -> onEditUserButtonClick());
         deleteDataButton.setOnAction(event -> onDeleteUserButtonClick());
         clearDataButton.setOnAction(event -> onClearDataButtonClick());
-
-        assert addDataButton != null : "fx:id=\"addDataButton\" was not injected: check your FXML file 'adminWindow.fxml'.";
-        assert deleteDataButton != null : "fx:id=\"deleteDataButton\" was not injected: check your FXML file 'adminWindow.fxml'.";
-        assert editDataButton != null : "fx:id=\"editDataButton\" was not injected: check your FXML file 'adminWindow.fxml'.";
-        assert exitButton != null : "fx:id=\"exitButton\" was not injected: check your FXML file 'adminWindow.fxml'.";
-        assert textChoiceBoxRole != null : "fx:id=\"textChoiceBoxRole\" was not injected: check your FXML file 'adminWindow.fxml'.";
-        assert textFieldLogin != null : "fx:id=\"textFieldLogin\" was not injected: check your FXML file 'adminWindow.fxml'.";
-        assert textFieldName != null : "fx:id=\"textFieldName\" was not injected: check your FXML file 'adminWindow.fxml'.";
-        assert textFieldPassword != null : "fx:id=\"textFieldPassword\" was not injected: check your FXML file 'adminWindow.fxml'.";
-        assert textFieldSurname != null : "fx:id=\"textFieldSurname\" was not injected: check your FXML file 'adminWindow.fxml'.";
-        assert userColumnID != null : "fx:id=\"userColumnID\" was not injected: check your FXML file 'adminWindow.fxml'.";
-        assert userColumnLogin != null : "fx:id=\"userColumnLogin\" was not injected: check your FXML file 'adminWindow.fxml'.";
-        assert userColumnName != null : "fx:id=\"userColumnName\" was not injected: check your FXML file 'adminWindow.fxml'.";
-        assert userColumnPassword != null : "fx:id=\"userColumnPassword\" was not injected: check your FXML file 'adminWindow.fxml'.";
-        assert userColumnRole != null : "fx:id=\"userColumnRole\" was not injected: check your FXML file 'adminWindow.fxml'.";
-        assert userColumnSurname != null : "fx:id=\"userColumnSurname\" was not injected: check your FXML file 'adminWindow.fxml'.";
-        assert userTable != null : "fx:id=\"userTable\" was not injected: check your FXML file 'adminWindow.fxml'.";
-
     }
 
     public void usersInit(){
@@ -138,7 +117,6 @@ public class AdminWindowController {
     public void openNewScene(String window) {
         Stage currentStage = (Stage) exitButton.getScene().getWindow();
         currentStage.close();
-
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource(window));
@@ -195,7 +173,6 @@ public class AdminWindowController {
             alert.showAndWait();
             return;
         }
-
         String login = textFieldLogin.getText();
         if(login.equals("")) login = chosen_user.getLogin();
         String password = textFieldPassword.getText();

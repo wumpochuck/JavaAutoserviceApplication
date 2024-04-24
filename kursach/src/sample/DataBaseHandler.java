@@ -11,6 +11,8 @@ import java.util.List;
 public class DataBaseHandler {
     Connection connection;
 
+    // GLOBAL - Конструктор, соединение --------------------------------------------------------------------------------
+
     public DataBaseHandler(){
         try {
             this.connection = getConnection();
@@ -28,7 +30,7 @@ public class DataBaseHandler {
         return connection;
     }
 
-    // Создание таблицы Users
+    // USERS - Создание таблицы ----------------------------------------------------------------------------------------
     public void createUsersTable() throws SQLException {
         try (Statement statement = connection.createStatement()) {
             String createTableQuery = "CREATE TABLE IF NOT EXISTS users (" +
@@ -44,39 +46,7 @@ public class DataBaseHandler {
         }
     }
 
-    // Создание таблицы Orders
-    public void createOrdersTable() throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            String createTableQuery = "CREATE TABLE IF NOT EXISTS orders (" +
-                    "idorder INT AUTO_INCREMENT PRIMARY KEY," +
-                    "userid INT," +
-                    "carmodel VARCHAR(50)," +
-                    "carnumber VARCHAR(50)," +
-                    "problemtype VARCHAR(150)," +
-                    "date VARCHAR(50)," +
-                    "time VARCHAR(50)," +
-                    "status VARCHAR(50)" +
-                    ")";
-            statement.executeUpdate(createTableQuery);
-            System.out.println("createOrdersTable(): Table created/consist!");
-        }
-    }
-
-    // Создание таблицы Cars
-    public void createCarTable() throws SQLException {
-        try (Statement statement = connection.createStatement()) {
-            String createTableQuery = "CREATE TABLE IF NOT EXISTS cars (" +
-                    "id INT AUTO_INCREMENT PRIMARY KEY," +
-                    "userId INT," +
-                    "carModel VARCHAR(255)," +
-                    "carNumber VARCHAR(20)" +
-                    ")";
-            statement.executeUpdate(createTableQuery);
-            System.out.println("createCarTable(): Table created/consist!");
-        }
-    }
-
-    // Добавление User
+    // USER - добавление пользователя
     public void addUser(User user) throws SQLException {
         String insertQuery = "INSERT INTO Users (login, password, name, surname, role) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
@@ -91,6 +61,7 @@ public class DataBaseHandler {
         }
     }
 
+    // USER - получение пользователя по логину
     public User getUserByLogin(String login) throws SQLException {
         String selectQuery = "SELECT * FROM Users WHERE login = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
@@ -110,199 +81,7 @@ public class DataBaseHandler {
         return null; // Если пользователь с таким логином не найден
     }
 
-    public boolean isDateTimeInTable(String date, String time) throws SQLException {
-        String selectDateTimeQuery = "SELECT COUNT(*) AS count FROM orders WHERE date = ? AND time = ?";
-        int count = 0;
-
-        try (PreparedStatement statement = connection.prepareStatement(selectDateTimeQuery)) {
-            statement.setString(1, date);
-            statement.setString(2, time);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    count = resultSet.getInt("count");
-                }
-            }
-        }
-
-        return count > 0;
-    }
-
-    // Добавление Order
-    public void addOrder(Order order) throws SQLException {
-        String insertQuery = "INSERT INTO orders (userid, carmodel, carnumber, problemtype, date, time, status) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-            preparedStatement.setInt(1, order.getUserId());
-            preparedStatement.setString(2, order.getCarModel());
-            preparedStatement.setString(3, order.getCarNumber());
-            preparedStatement.setString(4, order.getProblemType());
-            preparedStatement.setString(5, order.getDate());
-            preparedStatement.setString(6, order.getTime());
-            preparedStatement.setString(7, order.getStatus());
-
-            preparedStatement.executeUpdate();
-            System.out.println("insertOrder(): Order added successfully.");
-        }
-    }
-
-    public List<Order> getOrderByCarModel(String carModel) throws SQLException {
-        List<Order> orders = new ArrayList<>();
-        String query = "SELECT * FROM orders WHERE carmodel = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)){
-             statement.setString(1, carModel);
-             try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Order order = new Order();
-                    order.setId(resultSet.getInt("idorder"));
-                    order.setUserId(resultSet.getInt("userid"));
-                    order.setCarModel(resultSet.getString("carmodel"));
-                    order.setCarNumber(resultSet.getString("carnumber"));
-                    order.setProblemType(resultSet.getString("problemtype"));
-                    order.setDate(resultSet.getString("date"));
-                    order.setTime(resultSet.getString("time"));
-                    order.setStatus(resultSet.getString("status"));
-                    orders.add(order);
-                }
-            }
-        }
-        return orders;
-    }
-
-    public List<Order> getOrdersByUserId(int userId) throws SQLException {
-        List<Order> orders = new ArrayList<>();
-        String query = "SELECT idorder, carmodel, problemtype, status FROM orders WHERE userid = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, userId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Order order = new Order();
-                    order.setId(resultSet.getInt("idorder"));
-                    order.setCarModel(resultSet.getString("carmodel"));
-                    order.setProblemType(resultSet.getString("problemtype"));
-                    order.setStatus(resultSet.getString("status"));
-                    // Добавляем заказ в список
-                    orders.add(order);
-                }
-            }
-        }
-        return orders;
-    }
-
-    public void updateUserById(int userId, String newName, String newSurname) throws SQLException {
-        String updateQuery = "UPDATE users SET name = ?, surname = ? WHERE id = ?";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-            preparedStatement.setString(1, newName);
-            preparedStatement.setString(2, newSurname);
-            preparedStatement.setInt(3, userId);
-
-            int rowsUpdated = preparedStatement.executeUpdate();
-
-            if (rowsUpdated > 0) {
-                System.out.println("updateUserById(): User details updated successfully!");
-            } else {
-                System.out.println("updateUserById(): No user found with the given ID.");
-            }
-        }
-    }
-
-    public void updateOrderStatusById(int orderId, String newStatus) throws SQLException {
-        String updateQuery = "UPDATE orders SET status = ? WHERE idorder = ?";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-            preparedStatement.setString(1, newStatus);
-            preparedStatement.setInt(2, orderId);
-            int rowsUpdated = preparedStatement.executeUpdate();
-
-            if (rowsUpdated > 0) {
-                System.out.println("updateOrderStatusById(): User details updated successfully!");
-            } else {
-                System.out.println("updateOrderStatusById(): No user found with the given ID.");
-            }
-        }
-    }
-
-    public List<Order> getAllOrders() throws SQLException {
-        List<Order> orders = new ArrayList<>();
-        String query = "SELECT * FROM orders";
-        try (PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                Order order = new Order();
-                order.setId(resultSet.getInt("idorder"));
-                order.setUserId(resultSet.getInt("userid"));
-                order.setCarModel(resultSet.getString("carmodel"));
-                order.setCarNumber(resultSet.getString("carnumber"));
-                order.setProblemType(resultSet.getString("problemtype"));
-                order.setDate(resultSet.getString("date"));
-                order.setTime(resultSet.getString("time"));
-                order.setStatus(resultSet.getString("status"));
-                orders.add(order);
-            }
-        }
-        return orders;
-    }
-
-    public void addCar(Car car) throws SQLException {
-        String insertQuery = "INSERT INTO cars (userId, carModel, carNumber) VALUES (?, ?, ?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-            preparedStatement.setInt(1, car.getUserId());
-            preparedStatement.setString(2, car.getCarModel());
-            preparedStatement.setString(3, car.getCarNumber());
-
-            preparedStatement.executeUpdate();
-            System.out.println("addCar(): Car added successfully.");
-        }
-    }
-
-    public List<Car> getAllCars() throws SQLException {
-        List<Car> cars = new ArrayList<>();
-        String query = "SELECT * FROM cars";
-        try (PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                Car car = new Car();
-                car.setId(resultSet.getInt("id"));
-                car.setUserId(resultSet.getInt("userId"));
-                car.setCarModel(resultSet.getString("carModel"));
-                car.setCarNumber(resultSet.getString("carNumber"));
-                cars.add(car);
-            }
-        }
-        return cars;
-    }
-
-    public ObservableList<PieChart.Data> getCarDataForPieChart() throws SQLException {
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-
-        // Получение данных о количестве машин по каждой марке из базы данных
-        String query = "SELECT carModel, COUNT(*) as count FROM cars GROUP BY carModel";
-        try (PreparedStatement statement = connection.prepareStatement(query);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            while (resultSet.next()) {
-                String carModel = resultSet.getString("carModel");
-                int count = resultSet.getInt("count");
-                pieChartData.add(new PieChart.Data(carModel, count));
-            }
-        }
-        return pieChartData;
-    }
-
-    public void deleteCar(int carId) throws SQLException {
-        String deleteQuery = "DELETE FROM cars WHERE id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
-            preparedStatement.setInt(1, carId);
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("deleteCar(): Car deleted successfully.");
-            } else {
-                System.out.println("deleteCar(): No car found with the given ID.");
-            }
-        }
-    }
-
+    // USERS - получить всех пользователей
     public List<User> getAllUsers() throws SQLException {
         List<User> userList = new ArrayList<>();
 
@@ -328,6 +107,7 @@ public class DataBaseHandler {
         return userList;
     }
 
+    // USERS - удалить пользователя по логину
     public void deleteUserByLogin(String login) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE login = ?")) {
             preparedStatement.setString(1, login);
@@ -336,6 +116,7 @@ public class DataBaseHandler {
         }
     }
 
+    // USERS - изменить информацию о пользователе
     public void updateUserById(User user) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "UPDATE users SET login = ?, password = ?, name = ?, surname = ?, role = ? WHERE id = ?")) {
@@ -350,7 +131,225 @@ public class DataBaseHandler {
         }
     }
 
+    // ORDERS - Создание таблицы ---------------------------------------------------------------------------------------
+    public void createOrdersTable() throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            String createTableQuery = "CREATE TABLE IF NOT EXISTS orders (" +
+                    "idorder INT AUTO_INCREMENT PRIMARY KEY," +
+                    "userid INT," +
+                    "carmodel VARCHAR(50)," +
+                    "carnumber VARCHAR(50)," +
+                    "problemtype VARCHAR(150)," +
+                    "date VARCHAR(50)," +
+                    "time VARCHAR(50)," +
+                    "status VARCHAR(50)" +
+                    ")";
+            statement.executeUpdate(createTableQuery);
+            System.out.println("createOrdersTable(): Table created/consist!");
+        }
+    }
+
+    // ORDERS - есть ли дата и время в заявках
+    public boolean isDateTimeInTable(String date, String time) throws SQLException {
+        String selectDateTimeQuery = "SELECT COUNT(*) AS count FROM orders WHERE date = ? AND time = ?";
+        int count = 0;
+
+        try (PreparedStatement statement = connection.prepareStatement(selectDateTimeQuery)) {
+            statement.setString(1, date);
+            statement.setString(2, time);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    count = resultSet.getInt("count");
+                }
+            }
+        }
+
+        return count > 0;
+    }
+
+    // ORDERS - добавление зявки
+    public void addOrder(Order order) throws SQLException {
+        String insertQuery = "INSERT INTO orders (userid, carmodel, carnumber, problemtype, date, time, status) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            preparedStatement.setInt(1, order.getUserId());
+            preparedStatement.setString(2, order.getCarModel());
+            preparedStatement.setString(3, order.getCarNumber());
+            preparedStatement.setString(4, order.getProblemType());
+            preparedStatement.setString(5, order.getDate());
+            preparedStatement.setString(6, order.getTime());
+            preparedStatement.setString(7, order.getStatus());
+
+            preparedStatement.executeUpdate();
+            System.out.println("insertOrder(): Order added successfully.");
+        }
+    }
+
+    // ORDERS - получить заявку по модели машины
+    public List<Order> getOrderByCarModel(String carModel) throws SQLException {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM orders WHERE carmodel = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, carModel);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Order order = new Order();
+                    order.setId(resultSet.getInt("idorder"));
+                    order.setUserId(resultSet.getInt("userid"));
+                    order.setCarModel(resultSet.getString("carmodel"));
+                    order.setCarNumber(resultSet.getString("carnumber"));
+                    order.setProblemType(resultSet.getString("problemtype"));
+                    order.setDate(resultSet.getString("date"));
+                    order.setTime(resultSet.getString("time"));
+                    order.setStatus(resultSet.getString("status"));
+                    orders.add(order);
+                }
+            }
+        }
+        return orders;
+    }
+
+    // ORDERS - получить заказ по ID пользователя
+    public List<Order> getOrdersByUserId(int userId) throws SQLException {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT idorder, carmodel, problemtype, status FROM orders WHERE userid = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, userId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Order order = new Order();
+                    order.setId(resultSet.getInt("idorder"));
+                    order.setCarModel(resultSet.getString("carmodel"));
+                    order.setProblemType(resultSet.getString("problemtype"));
+                    order.setStatus(resultSet.getString("status"));
+                    // Добавляем заказ в список
+                    orders.add(order);
+                }
+            }
+        }
+        return orders;
+    }
+
+    // ORDERS - изменить статус заявки
+    public void updateOrderStatusById(int orderId, String newStatus) throws SQLException {
+        String updateQuery = "UPDATE orders SET status = ? WHERE idorder = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+            preparedStatement.setString(1, newStatus);
+            preparedStatement.setInt(2, orderId);
+            int rowsUpdated = preparedStatement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("updateOrderStatusById(): User details updated successfully!");
+            } else {
+                System.out.println("updateOrderStatusById(): No user found with the given ID.");
+            }
+        }
+    }
+
+    // ORDERS - получить все заявки
+    public List<Order> getAllOrders() throws SQLException {
+        List<Order> orders = new ArrayList<>();
+        String query = "SELECT * FROM orders";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Order order = new Order();
+                order.setId(resultSet.getInt("idorder"));
+                order.setUserId(resultSet.getInt("userid"));
+                order.setCarModel(resultSet.getString("carmodel"));
+                order.setCarNumber(resultSet.getString("carnumber"));
+                order.setProblemType(resultSet.getString("problemtype"));
+                order.setDate(resultSet.getString("date"));
+                order.setTime(resultSet.getString("time"));
+                order.setStatus(resultSet.getString("status"));
+                orders.add(order);
+            }
+        }
+        return orders;
+    }
+
+    // CARS - Создание таблицы -----------------------------------------------------------------------------------------
+    public void createCarTable() throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            String createTableQuery = "CREATE TABLE IF NOT EXISTS cars (" +
+                    "id INT AUTO_INCREMENT PRIMARY KEY," +
+                    "userId INT," +
+                    "carModel VARCHAR(255)," +
+                    "carNumber VARCHAR(20)" +
+                    ")";
+            statement.executeUpdate(createTableQuery);
+            System.out.println("createCarTable(): Table created/consist!");
+        }
+    }
+
+    // CARS - добавить автомобиль
+    public void addCar(Car car) throws SQLException {
+        String insertQuery = "INSERT INTO cars (userId, carModel, carNumber) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+            preparedStatement.setInt(1, car.getUserId());
+            preparedStatement.setString(2, car.getCarModel());
+            preparedStatement.setString(3, car.getCarNumber());
+
+            preparedStatement.executeUpdate();
+            System.out.println("addCar(): Car added successfully.");
+        }
+    }
+
+    // CARS - получить все автомобили
+    public List<Car> getAllCars() throws SQLException {
+        List<Car> cars = new ArrayList<>();
+        String query = "SELECT * FROM cars";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Car car = new Car();
+                car.setId(resultSet.getInt("id"));
+                car.setUserId(resultSet.getInt("userId"));
+                car.setCarModel(resultSet.getString("carModel"));
+                car.setCarNumber(resultSet.getString("carNumber"));
+                cars.add(car);
+            }
+        }
+        return cars;
+    }
+
+    // CARS - получить данные для графика
+    public ObservableList<PieChart.Data> getCarDataForPieChart() throws SQLException {
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+
+        // Получение данных о количестве машин по каждой марке из базы данных
+        String query = "SELECT carModel, COUNT(*) as count FROM cars GROUP BY carModel";
+        try (PreparedStatement statement = connection.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String carModel = resultSet.getString("carModel");
+                int count = resultSet.getInt("count");
+                pieChartData.add(new PieChart.Data(carModel, count));
+            }
+        }
+        return pieChartData;
+    }
+
+    // CARS - удалить автомобиль
+    public void deleteCar(int carId) throws SQLException {
+        String deleteQuery = "DELETE FROM cars WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+            preparedStatement.setInt(1, carId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("deleteCar(): Car deleted successfully.");
+            } else {
+                System.out.println("deleteCar(): No car found with the given ID.");
+            }
+        }
+    }
+
+
     /*
+    // USERS - вставить пользователей
     public void insertTwentyUsers() throws SQLException {
         String insertQuery = "INSERT INTO users (login, password, name, surname, role) VALUES (?, ?, ?, ?, ?)";
 
@@ -373,9 +372,8 @@ public class DataBaseHandler {
             System.out.println("Twenty users inserted successfully.");
         }
     }
-    */
 
-    /*
+    // ORDERS - вставить автомобили
     public void insertTwentyOrders() throws SQLException {
         String insertQuery = "INSERT INTO orders (userid, carmodel, carnumber, problemtype, date, time, status) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";

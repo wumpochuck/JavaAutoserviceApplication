@@ -1,19 +1,19 @@
 package sample.Animations;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.scene.Node;
+import javafx.animation.TranslateTransition;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 public class ButtonsPaneAnimation {
-
-    public ButtonsPaneAnimation(Node node, String side) {
-
+    public static void moveRight(AnchorPane buttonsPane){
+        TranslateTransition RegToRight = new TranslateTransition(Duration.seconds(0.5), buttonsPane);
+        RegToRight.setToX(0);
+        RegToRight.play();
     }
 
-    public void play() {
-        //timeline.play();
+    public static void moveLeft(AnchorPane buttonsPane){
+        TranslateTransition RegToRight = new TranslateTransition(Duration.seconds(0.5), buttonsPane);
+        RegToRight.setToX(275);
+        RegToRight.play();
     }
 }
-

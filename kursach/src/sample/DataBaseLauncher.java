@@ -11,7 +11,7 @@ public class DataBaseLauncher {
         dbc.createUsersTable();
         dbc.createOrdersTable();
         dbc.createCarTable();
-        // dbc.insertTwentyUsers();
+        //dbc.insertTwentyUsers();
         //dbc.insertTwentyOrders();
     }
 }

@@ -14,47 +14,47 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #dddde1;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controllers.MainWindowController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: F7F7FF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controllers.MainWindowController">
    <children>
-      <AnchorPane prefHeight="100.0" prefWidth="1200.0" style="-fx-background-color: #3f458f;">
+      <AnchorPane layoutY="-50.0" prefHeight="125.0" prefWidth="1200.0" style="-fx-background-color: BDD5EA; -fx-background-radius: 25; -fx-border-color: #577399; -fx-border-radius: 25;">
          <children>
-            <Text fill="#dddde1" layoutX="476.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Автосервис">
+            <Text fill="#495867" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Автосервис &quot;Wumpo&quot;" textAlignment="CENTER" wrappingWidth="1200.0">
                <font>
-                  <Font name="Helvetica Bold" size="60.0" />
+                  <Font name="System Bold" size="36.0" />
                </font>
             </Text>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="mainPage" layoutX="100.0" layoutY="100.0" prefHeight="600.0" prefWidth="1100.0" visible="false">
+      <AnchorPane fx:id="mainPage" layoutX="100.0" layoutY="100.0" prefHeight="600.0" prefWidth="1100.0">
          <children>
-            <Text fx:id="welcomeText" layoutX="100.0" layoutY="140.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Добро пожаловать, &#10;user!" textOrigin="CENTER">
+            <Text fx:id="welcomeText" fill="#495867" layoutX="100.0" layoutY="140.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Добро пожаловать, &#10;user!" textOrigin="CENTER">
                <font>
-                  <Font name="Helvetica" size="40.0" />
+                  <Font name="System Bold" size="40.0" />
                </font>
             </Text>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="proflePage" layoutX="100.0" layoutY="100.0" prefHeight="600.0" prefWidth="1100.0">
+      <AnchorPane fx:id="profilePage" layoutX="100.0" layoutY="100.0" prefHeight="600.0" prefWidth="1100.0" visible="false">
          <children>
-            <Text layoutX="50.0" layoutY="25.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Ваш профиль" textOrigin="CENTER">
+            <Text fill="#495867" layoutX="50.0" layoutY="13.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Ваш профиль" textOrigin="CENTER">
                <font>
-                  <Font name="Helvetica" size="40.0" />
+                  <Font name="System Bold" size="40.0" />
                </font>
             </Text>
-            <AnchorPane layoutX="50.0" layoutY="50.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #bebec3;">
+            <AnchorPane layoutX="50.0" layoutY="50.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #BDD5EA; -fx-background-radius: 25; -fx-border-color: #577399; -fx-border-radius: 25;">
                <children>
-                  <TextArea fx:id="profile_dataText" editable="false" layoutX="50.0" layoutY="50.0" prefHeight="400.0" prefWidth="400.0" text="Имя:&#10;&#10;Фамилия:&#10;&#10;Логин:&#10;&#10;Роль:&#10;">
+                  <TextArea fx:id="profile_dataText" editable="false" layoutX="50.0" layoutY="50.0" prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #BDD5EA; -fx-border-color: #BDD5EA;" text="Имя:&#10;&#10;Фамилия:&#10;&#10;Логин:&#10;&#10;Роль:&#10;">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </TextArea>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="600.0" layoutY="50.0" prefHeight="500.0" prefWidth="450.0" style="-fx-background-color: #bebec3;">
+            <AnchorPane layoutX="600.0" layoutY="50.0" prefHeight="500.0" prefWidth="450.0" style="-fx-background-color: BDD5EA; -fx-background-radius: 25; -fx-border-color: #577399; -fx-border-radius: 25;">
                <children>
-                  <Text layoutX="125.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Имя">
+                  <Text fill="#495867" layoutX="125.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Имя">
                      <font>
-                        <Font size="25.0" />
+                        <Font name="System Bold" size="25.0" />
                      </font>
                   </Text>
                   <TextField fx:id="profile_nameText" layoutX="200.0" layoutY="50.0" prefHeight="33.0" prefWidth="200.0">
@@ -62,9 +62,9 @@
                         <Font size="16.0" />
                      </font>
                   </TextField>
-                  <Text layoutX="70.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Фамилия">
+                  <Text fill="#495867" layoutX="63.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Фамилия">
                      <font>
-                        <Font size="25.0" />
+                        <Font name="System Bold" size="25.0" />
                      </font>
                   </Text>
                   <TextField fx:id="profile_surnameText" layoutX="200.0" layoutY="100.0" prefHeight="33.0" prefWidth="200.0">
@@ -72,86 +72,86 @@
                         <Font size="16.0" />
                      </font>
                   </TextField>
-                  <Button fx:id="profile_applyButton" layoutX="50.0" layoutY="400.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Применить">
+                  <Button fx:id="profile_applyButton" layoutX="200.0" layoutY="154.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="200.0" style="-fx-background-color: #495867; -fx-background-radius: 15;" text="ПРИМЕНИТЬ" textFill="#f7f7ff">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Button>
                </children>
             </AnchorPane>
-            <Text layoutX="600.0" layoutY="25.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Изменить данные:" textOrigin="CENTER">
+            <Text fill="#495867" layoutX="600.0" layoutY="13.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Изменить данные:" textOrigin="CENTER">
                <font>
-                  <Font name="Helvetica" size="40.0" />
+                  <Font name="System Bold" size="40.0" />
                </font>
             </Text>
          </children>
       </AnchorPane>
       <AnchorPane fx:id="orderPage" layoutX="100.0" layoutY="100.0" prefHeight="600.0" prefWidth="1100.0" visible="false">
          <children>
-            <Text fx:id="orderText" layoutX="50.0" layoutY="25.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Создать заявку на ремонт" textOrigin="CENTER">
+            <Text fx:id="orderText" fill="#495867" layoutX="50.0" layoutY="25.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Создать заявку на ремонт" textOrigin="CENTER">
                <font>
-                  <Font size="38.0" />
+                  <Font name="System Bold" size="36.0" />
                </font>
             </Text>
-            <AnchorPane layoutX="50.0" layoutY="50.0" prefHeight="500.0" prefWidth="450.0" style="-fx-background-color: #bebec3;">
+            <AnchorPane layoutX="50.0" layoutY="50.0" prefHeight="500.0" prefWidth="450.0" style="-fx-background-color: #BDD5EA; -fx-background-radius: 25; -fx-border-color: #577399; -fx-border-radius: 25;">
                <children>
-                  <Text layoutX="50.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Марка авто">
+                  <Text fill="#495867" layoutX="50.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Марка авто">
                      <font>
-                        <Font size="25.0" />
+                        <Font name="System Bold" size="24.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="order_textCarModel" layoutX="200.0" layoutY="25.0" prefHeight="33.0" prefWidth="200.0">
+                  <TextField fx:id="order_textCarModel" layoutX="200.0" layoutY="25.0" prefHeight="33.0" prefWidth="200.0" style="-fx-background-color: #F7F7FF;">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </TextField>
-                  <Text layoutX="50.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Номер авто">
+                  <Text fill="#495867" layoutX="50.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Номер авто">
                      <font>
-                        <Font size="25.0" />
+                        <Font name="System Bold" size="24.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="order_textCarNumber" layoutX="200.0" layoutY="75.0" prefHeight="33.0" prefWidth="200.0">
+                  <TextField fx:id="order_textCarNumber" layoutX="200.0" layoutY="75.0" prefHeight="33.0" prefWidth="200.0" style="-fx-background-color: #F7F7FF;">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </TextField>
-                  <Text layoutX="50.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Краткое описание проблемы">
+                  <Text fill="#495867" layoutX="50.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Краткое описание проблемы">
                      <font>
-                        <Font size="25.0" />
+                        <Font name="System Bold" size="24.0" />
                      </font>
                   </Text>
-                  <TextArea fx:id="order_textProblem" layoutX="50.0" layoutY="175.0" prefHeight="125.0" prefWidth="350.0">
+                  <TextArea fx:id="order_textProblem" layoutX="50.0" layoutY="175.0" prefHeight="125.0" prefWidth="350.0" style="-fx-background-color: #BDD5EA; -fx-border-color: #BDD5EA;">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </TextArea>
-                  <Text layoutX="50.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Дата ремонта">
+                  <Text fill="#495867" layoutX="50.0" layoutY="350.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Дата ремонта">
                      <font>
-                        <Font size="25.0" />
+                        <Font name="System Bold" size="24.0" />
                      </font>
                   </Text>
-                  <DatePicker fx:id="order_textDate" layoutX="225.0" layoutY="325.0" prefHeight="33.0" prefWidth="175.0" />
-                  <Text layoutX="50.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Время ремонта">
+                  <DatePicker fx:id="order_textDate" layoutX="225.0" layoutY="325.0" prefHeight="33.0" prefWidth="175.0" style="-fx-background-color: #BDD5EA;" />
+                  <Text fill="#495867" layoutX="50.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Время ремонта">
                      <font>
-                        <Font size="24.0" />
+                        <Font name="System Bold" size="21.0" />
                      </font>
                   </Text>
-                  <ChoiceBox fx:id="order_textTime" layoutX="225.0" layoutY="375.0" prefHeight="33.0" prefWidth="175.0" />
-                  <Button fx:id="order_sendButton" layoutX="50.0" layoutY="425.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Отправить">
+                  <ChoiceBox fx:id="order_textTime" layoutX="225.0" layoutY="375.0" prefHeight="33.0" prefWidth="175.0" style="-fx-background-color: #F7F7FF;" />
+                  <Button fx:id="order_sendButton" layoutX="50.0" layoutY="425.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 15; -fx-background-color: #495867;" text="Отправить" textFill="#f7f7ff">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Button>
-                  <Button fx:id="order_clearButton" layoutX="250.0" layoutY="425.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" text="Очистить">
+                  <Button fx:id="order_clearButton" layoutX="250.0" layoutY="425.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="150.0" style="-fx-background-radius: 15; -fx-background-color: #495867;" text="Очистить" textFill="#f7f7ff">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Button>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="550.0" layoutY="50.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #bebec3;">
+            <AnchorPane layoutX="550.0" layoutY="50.0" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #BDD5EA; -fx-background-radius: 25;">
                <children>
-                  <TableView fx:id="order_ordersTable" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: bebec3;">
+                  <TableView fx:id="order_ordersTable" prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #BDD5EA; -fx-background-radius: 25; -fx-border-color: #577399; -fx-border-radius: 25; -fx-border-width: 1;">
                     <columns>
                       <TableColumn fx:id="order_idColumn" prefWidth="75.0" text="Заявка №" />
                       <TableColumn fx:id="order_carColumn" prefWidth="75.0" text="Авто" />
@@ -164,18 +164,18 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <Text fx:id="orderText1" layoutX="550.0" layoutY="25.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Ваши заявки" textOrigin="CENTER">
+            <Text fx:id="orderText1" fill="#495867" layoutX="550.0" layoutY="25.0" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Ваши заявки" textOrigin="CENTER">
                <font>
-                  <Font size="38.0" />
+                  <Font name="System Bold" size="36.0" />
                </font>
             </Text>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="buttonsPane" layoutX="-300.0" layoutY="100.0" onMouseEntered="#showButtonsPane" onMouseExited="#hideButtonsPane" prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #3f458f;">
+      <AnchorPane fx:id="buttonsPane" layoutX="-300.0" layoutY="90.0" onMouseEntered="#showButtonsPane" onMouseExited="#hideButtonsPane" prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: BDD5EA; -fx-background-radius: 25; -fx-border-color: #577399; -fx-border-radius: 25;">
          <children>
-            <Button fx:id="exitButton" alignment="CENTER" layoutX="50.0" layoutY="525.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #1d203c;" text="Выход" textFill="#dddde1">
+            <Button fx:id="exitButton" alignment="CENTER" layoutX="50.0" layoutY="525.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #495867; -fx-background-radius: 25;" text="ВЫХОД" textFill="#f7f7ff">
                <font>
-                  <Font size="23.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -186,10 +186,10 @@
                   <Image url="@../../assets/exitIcon.png" />
                </image>
             </ImageView>
-            <AnchorPane fx:id="mainButtonPane" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: #3f458f;" />
-            <Button fx:id="mainButton" alignment="CENTER" layoutX="50.0" layoutY="25.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #1d203c;" text="Главная" textFill="#dddde1">
+            <AnchorPane fx:id="mainButtonPane" layoutY="1.0" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: BDD5EA; -fx-background-radius: 25;" />
+            <Button fx:id="mainButton" alignment="CENTER" layoutX="50.0" layoutY="25.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #495867; -fx-background-radius: 25;" text="ГЛАВНАЯ" textFill="#f7f7ff">
                <font>
-                  <Font size="23.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -200,36 +200,36 @@
                   <Image url="@../../assets/houseIcon.png" />
                </image>
             </ImageView>
-            <AnchorPane fx:id="orderButtonPane" layoutY="100.0" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: #3f458f;" />
-            <Button fx:id="orderButton" alignment="CENTER" layoutX="50.0" layoutY="125.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #1d203c;" text="Ремонт" textFill="#dddde1">
+            <AnchorPane fx:id="orderButtonPane" layoutY="100.0" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: BDD5EA; -fx-background-radius: 25;" />
+            <Button fx:id="orderButton" alignment="CENTER" layoutX="50.0" layoutY="125.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #495867; -fx-background-radius: 25;" text="РЕМОНТ" textFill="#f7f7ff">
                <font>
-                  <Font size="23.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="320.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="70.0" fitWidth="70.0" layoutX="315.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/buyIcon.png" />
                </image>
             </ImageView>
-            <Button fx:id="employerButton" alignment="CENTER" layoutX="50.0" layoutY="225.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #1d203c;" text="Заявки на ремонт" textFill="#dddde1">
+            <Button fx:id="employerButton" alignment="CENTER" layoutX="50.0" layoutY="225.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #495867; -fx-background-radius: 25;" text="ЗАЯВКИ НА РЕМОНТ" textFill="#f7f7ff">
                <font>
-                  <Font size="23.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="320.0" layoutY="220.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="325.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/employerIcon.png" />
                </image>
             </ImageView>
-            <Button fx:id="adminButton" alignment="CENTER" layoutX="50.0" layoutY="325.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #1d203c;" text="Админ-Панель" textFill="#dddde1">
+            <Button fx:id="adminButton" alignment="CENTER" layoutX="50.0" layoutY="325.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #495867; -fx-background-radius: 25;" text="АДМИН ПАНЕЛЬ" textFill="#f7f7ff">
                <font>
-                  <Font size="23.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -240,16 +240,16 @@
                   <Image url="@../../assets/adminIcon.png" />
                </image>
             </ImageView>
-            <AnchorPane fx:id="profileButtonPane" layoutY="400.0" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: #3f458f;" />
-            <Button fx:id="profileButton" alignment="CENTER" layoutX="50.0" layoutY="425.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #1d203c;" text="Профиль" textFill="#dddde1">
+            <AnchorPane fx:id="profileButtonPane" layoutY="400.0" prefHeight="100.0" prefWidth="400.0" style="-fx-background-color: BDD5EA; -fx-background-radius: 25;" />
+            <Button fx:id="profileButton" alignment="CENTER" layoutX="50.0" layoutY="425.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #495867; -fx-background-radius: 25;" text="ПРОФИЛЬ" textFill="#f7f7ff">
                <font>
-                  <Font size="23.0" />
+                  <Font name="System Bold" size="20.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="325.0" layoutY="425.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="60.0" fitWidth="60.0" layoutX="320.0" layoutY="420.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/userIcon.png" />
                </image>

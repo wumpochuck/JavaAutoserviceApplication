@@ -15,9 +15,16 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 1200, 700));
         primaryStage.show();
     }
-
-
     public static void main(String[] args) {
         launch(args);
     }
 }
+
+/**
+ * Цвета:
+ * Темно-серый  | 495867
+ * Темно-синий  | 577399
+ * Светло-синий | BDD5EA
+ * Светлый      | F7F7FF
+ * Ярко-Красный | FE5F55
+ **/
