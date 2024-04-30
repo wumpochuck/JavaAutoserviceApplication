@@ -111,6 +111,7 @@ public class EmployerWindowController {
     @FXML
     void initialize() {
         hideAllPages();
+        try { onUpdateButtonClick(); } catch (SQLException throwables) { throwables.printStackTrace(); }
         ordersPane.setVisible(true);
 
         exitButton.setOnAction(event -> onExitButtonClick());
