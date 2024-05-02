@@ -172,8 +172,8 @@ public class EmployerWindowController {
         newStage.show();
     }
 
-    public void onUpdateButtonClick() throws SQLException {
-        ordertableUpdate();
+    public void onUpdateButtonClick() throws SQLException { // При нажатии на кнопку "Обновить"
+        ordertableUpdate(); // Вызывается метод обновления таблицы заказов
         carTableUpdate();
     }
 
@@ -193,16 +193,16 @@ public class EmployerWindowController {
     }
 
     public void ordertableUpdate() throws SQLException {
-        String searchText = ordersSearchText.getText();
+        String searchText = ordersSearchText.getText(); // Считывается текст марки автомобиля для поиска
         List<Order> orders;
 
-        if(searchText.equals(null) || searchText.equals("")) {
-            orders = new DataBaseHandler().getAllOrders();
-        } else{
-            orders = new DataBaseHandler().getOrderByCarModel(searchText);
+        if(searchText.equals(null) || searchText.equals("")) { // В случае, когда считанный текст пуст
+            orders = new DataBaseHandler().getAllOrders(); // Создается список всех заказов из БД
+        } else{ // Иначе
+            orders = new DataBaseHandler().getOrderByCarModel(searchText); // Создается список только заказов с соотв. маркой
         }
-        ObservableList<Order> data = FXCollections.observableArrayList(orders);
-        ordersTable.setItems(data);
+        ObservableList<Order> data = FXCollections.observableArrayList(orders); // Список преобразуется в коллекцию
+        ordersTable.setItems(data); // Коллекция заполняет таблицу в GUI
     }
 
     public void onOrderApplyStatusButtonClick() throws SQLException {
